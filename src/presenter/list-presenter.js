@@ -7,21 +7,21 @@ import NewPointFormView from '../view/new-point-form';
 import EditPointFormView from '../view/edit-point-form';
 
 export default class ListPresenter {
-  listComponent = new ListView();
+  component = new ListView();
 
-  constructor({listContainer}) {
-    this.listContainer = listContainer;
+  constructor({container}) {
+    this.container = container;
   }
 
   init() {
-    render(this.listComponent, this.listContainer);
-    render (new TripSortView(), this.listComponent.getElement(), RenderPosition.BEFOREBEGIN);
-    render (new EditPointFormView(), this.listComponent.getElement(), RenderPosition.AFTERBEGIN);
-    render (new NewPointFormView(), this.listComponent.getElement(), RenderPosition.BEFOREEND);
+    render(this.component, this.container);
+    render (new TripSortView(), this.component.getElement(), RenderPosition.BEFOREBEGIN);
+    render (new EditPointFormView(), this.component.getElement(), RenderPosition.AFTERBEGIN);
+    render (new NewPointFormView(), this.component.getElement(), RenderPosition.BEFOREEND);
 
 
     for (let i = 0; i < 3; i++) {
-      render (new EventView(), this.listComponent.getElement(), RenderPosition.BEFOREEND);
+      render (new EventView(), this.component.getElement(), RenderPosition.BEFOREEND);
     }
   }
 }
