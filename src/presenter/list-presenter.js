@@ -1,10 +1,10 @@
-import { render } from "../render";
-import { RenderPosition } from "../render";
-import ListView from "../view/list-view";
-import TripSortView from "../view/trip-sort";
-import EventView from "../view/event";
-import NewPointFormView from "../view/new-point-form";
-import EditPointFormView from "../view/edit-point-form";
+import { render } from '../render';
+import { RenderPosition } from '../render';
+import ListView from '../view/list-view';
+import TripSortView from '../view/trip-sort';
+import EventView from '../view/event';
+import NewPointFormView from '../view/new-point-form';
+import EditPointFormView from '../view/edit-point-form';
 
 export default class ListPresenter {
   listComponent = new ListView();
