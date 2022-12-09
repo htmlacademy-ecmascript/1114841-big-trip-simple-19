@@ -1,11 +1,9 @@
 import {createElement} from '../render';
 
-function createListViewTemplate() {
-  return (
-    `<ul class="trip-events__list">
-    </ul>`
-  );
-}
+const createListViewTemplate = () =>
+  `<ul class="trip-events__list">
+    </ul>`;
+
 
 export default class ListView {
   getTemplate() {

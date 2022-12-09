@@ -1,8 +1,7 @@
 import {createElement} from '../render';
 
-function createEditPointFormTemplate() {
-  return (
-    `<li class="trip-events__item">
+const createEditPointFormTemplate = () => (
+  `<li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
       <header class="event__header">
         <div class="event__type-wrapper">
@@ -157,8 +156,7 @@ function createEditPointFormTemplate() {
       </section>
     </form>
   </li>`
-  );
-}
+);
 
 export default class EditPointFormView {
   getTemplate() {

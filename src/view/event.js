@@ -1,8 +1,7 @@
 import {createElement} from '../render';
 
-function createEventTemplate() {
-  return (
-    `<li class="trip-events__item">
+const createEventTemplate = () =>
+  `<li class="trip-events__item">
     <div class="event">
       <time class="event__date" datetime="2019-03-18">MAR 18</time>
       <div class="event__type">
@@ -31,9 +30,7 @@ function createEventTemplate() {
         <span class="visually-hidden">Open event</span>
       </button>
     </div>
-  </li>`
-  );
-}
+  </li>`;
 
 export default class EventView {
   getTemplate() {
