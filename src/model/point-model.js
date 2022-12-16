@@ -9,19 +9,3 @@ export default class PointModel {
     return this.points;
   }
 }
-// const pointTypeOffer = offerByTypes.find((offer) => offer.type === routPoints.type);
-
-// pointTypeOffer(offerByTypes[0])
-
-
-// console.log(pointTypeOffer)
-
-// const pointTypeOffer = offerByTypes.find((offer) =>offer.type === localPoints.type);
-
-// for (const offers of localPoints) {
-//   if offers.type =
-//   console.log(offerType);
-// }
-
-// console.log(pointTypeOffer)
-
