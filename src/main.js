@@ -1,11 +1,13 @@
-import ListPresenter from './presenter/list-presenter';
-import { render } from './render';
-import { RenderPosition } from './render';
-import TripFiltersView from './view/trip-filters';
+import ListPresenter from './presenter/list-presenter.js';
+import { render } from './render.js';
+import { RenderPosition } from './render.js';
+import TripFiltersView from './view/trip-filters-view.js';
+import PointModel from './model/point-model.js';
 
 const siteTripElement = document.querySelector('.trip-events');
 const siteControlsElement = document.querySelector('.trip-controls__filters');
-const listPresenter = new ListPresenter({container: siteTripElement});
+const pointModel = new PointModel();
+const listPresenter = new ListPresenter({container: siteTripElement, pointModel,});
 
 render (new TripFiltersView(), siteControlsElement, RenderPosition.BEFOREEND);
 

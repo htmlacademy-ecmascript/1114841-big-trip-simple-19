@@ -1,4 +1,4 @@
-import {createElement} from '../render';
+import {createElement} from '../render.js';
 
 const createTripFiltersTemplate = () =>
   `<form class="trip-filters" action="#" method="get">
