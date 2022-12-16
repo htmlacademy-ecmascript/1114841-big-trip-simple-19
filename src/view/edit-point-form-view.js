@@ -2,7 +2,7 @@ import {createElement} from '../render.js';
 
 
 const createEditPointFormTemplate = (point) => {
-  const {name, offer, pictures, description} = point;
+  const {name, description} = point;
 
   return (
     `<li class="trip-events__item">
