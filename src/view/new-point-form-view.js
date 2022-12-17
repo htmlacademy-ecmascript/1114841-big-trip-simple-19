@@ -1,6 +1,7 @@
 import {createElement} from '../render.js';
 import { fullDateFrom } from '../util.js';
 import { fullDateTo } from '../util.js';
+import { offersByTypes } from '../mock/additional-options.js';
 
 const BLANK_POINT = {
   basePrice: 5000,
@@ -18,51 +19,27 @@ const BLANK_POINT = {
       {
         src: 'https://loremflickr.com/248/152?random=2',
         description: 'Fusce tristique felis at fermentum pharetra.'
-      },
-      {
-        src: 'https://loremflickr.com/248/152?random=3',
-        description: 'Fusce tristique felis at fermentum pharetra.'
-      }
-    ]
+      }]
   },
   id: 6,
-  offers: [
-    {
-      id: 1,
-      title: 'Upgrade to a business class',
-      price: 120
-    },
-    {
-      id: 2,
-      title: 'Add luggage',
-      price: 30
-    },
-    {
-      id: 3,
-      title: 'Switch to comfort class',
-      price: 100
-    },
-    {
-      id: 5,
-      title: 'Choose seats',
-      price: 5
-    }
-  ],
+  offers: [1, 3],
   type: 'flight'
 };
 
+const createAdditionOptionsTemplate = (offers, pointTypeOffers) =>
 
-const createAdditionOptionsTemplate = (offers) =>
-  offers.map((offer) =>
-    ` <div class="event__offer-selector">
-                  <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.id}" type="checkbox" name="event-offer-luggage" checked>
+  pointTypeOffers.offers.map((offer) => {
+    const checked = offers.includes(offer.id) ? 'checked' : '';
+    return (
+      ` <div class="event__offer-selector">
+                  <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.id}" type="checkbox" name="event-offer-luggage" ${checked}>
                   <label class="event__offer-label" for="event-offer-${offer.id}">
                     <span class="event__offer-title">${offer.title}</span>
                     &plus;&euro;&nbsp;
                     <span class="event__offer-price">${offer.price}</span>
                   </label>
-                </div>`
-  ).join('');
+                </div>`);
+  }).join('');
 
 const createPicturesTemplate = (pictures) =>
   pictures.map((picture) =>
@@ -74,8 +51,10 @@ const createNewPointFormTemplate = (point) => {
   const { basePrice, dateFrom, dateTo, destination, type, offers } = point;
   const pointDateTo = fullDateTo(dateTo);
   const pointDateFrom = fullDateFrom(dateFrom);
-  const additionOptionsTemplate = createAdditionOptionsTemplate(offers);
+  const pointTypeOffers = offersByTypes.find((offer) => offer.type === point.type);
+  const additionOptionsTemplate = createAdditionOptionsTemplate(offers, pointTypeOffers);
   const picturesTemplate = createPicturesTemplate(destination.pictures);
+
 
   return (
     `<li class="trip-events__item">

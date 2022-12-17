@@ -2,16 +2,18 @@ import {createElement} from '../render.js';
 import { dayDate } from '../util.js';
 import { dateTimeFrom } from '../util.js';
 import { dateTimeTo } from '../util.js';
+import { offersByTypes } from '../mock/additional-options.js';
+import { destinations } from '../mock/destinations.js';
 
 
-const createSelectedOffersTemplate = (offers) =>
-  offers.map((offer) =>
-    ` <li class="event__offer">
+const createSelectedOffersTemplate = (offers, pointTypeOffers) =>
+  pointTypeOffers.offers.map((offer) =>
+    offers.includes(offer.id) ?
+      ` <li class="event__offer">
         <span class="event__offer-title">${offer.title}</span>
         &plus;&euro;&nbsp;
         <span class="event__offer-price">${offer.price}</span>
-        </li>`
-  ).join('');
+        </li>` : '').join('');
 
 
 const createPointTemplate = (point) => {
@@ -19,7 +21,9 @@ const createPointTemplate = (point) => {
   const pointTimeFrom = dateTimeFrom(dateFrom);
   const pointTimeTo = dateTimeTo(dateTo);
   const pointDayDate = dayDate(dateFrom);
-  const selectOffersTemplate = createSelectedOffersTemplate(offers);
+  const pointTypeOffers = offersByTypes.find((offer) => offer.type === point.type);
+  const selectOffersTemplate = createSelectedOffersTemplate(offers, pointTypeOffers);
+  const pointDestination = destinations.find((direction) => direction.id === destination[0]);
 
   return (
     `<li class="trip-events__item">
@@ -28,7 +32,7 @@ const createPointTemplate = (point) => {
       <div class="event__type">
         <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
       </div>
-      <h3 class="event__title">${`${type } ${ destination.name}`}</h3>
+      <h3 class="event__title">${`${type } ${ pointDestination.name}`}</h3>
       <div class="event__schedule">
         <p class="event__time">
           <time class="event__start-time" datetime="2019-03-18T10:30">${pointTimeFrom}</time>

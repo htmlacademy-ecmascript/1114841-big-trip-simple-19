@@ -1,5 +1,5 @@
-import { offersByTypes } from './mock/additional-options.js';
-import { destinations } from './mock/destinations.js';
+// import { offersByTypes } from './mock/additional-options.js';
+// import { destinations } from './mock/destinations.js';
 import dayjs from 'dayjs';
 
 const DATE_FORMAT = 'DD/MM/YY hh:mm';
@@ -17,24 +17,24 @@ const getRandomArrayElement = (items) => items[Math.floor(Math.random() * items.
 const getRandom = (items) => items[Math.floor(Math.random() * items.length)];
 
 
-const getOffers = (items) => {
-  const newOffers = [];
+// const getOffers = (items) => {
+//   const newOffers = [];
 
-  for (const item of items) {
-    const offer = offersByTypes.find((offerByTypes) => offerByTypes.id === item);
-    newOffers.push(offer);
-  }
-  return newOffers;
-};
+//   for (const item of items) {
+//     const offer = offersByTypes.find((offerByTypes) => offerByTypes.id === item);
+//     newOffers.push(offer);
+//   }
+//   return newOffers;
+// };
 
-const getDestination = (items) => {
-  const newDestinations = [];
+// const getDestination = (items) => {
+//   const newDestinations = [];
 
-  for (const item of items) {
-    const direction = destinations.find((destination) => destination.id === item);
-    newDestinations.push(direction);
-  }
-  return newDestinations;
-};
+//   for (const item of items) {
+//     const direction = destinations.find((destination) => destination.id === item);
+//     newDestinations.push(direction);
+//   }
+//   return newDestinations;
+// };
 
-export {getRandomArrayElement,getOffers,getDestination, getRandom, fullDateFrom, fullDateTo, dateTimeFrom, dateTimeTo, dayDate};
+export {getRandomArrayElement, getRandom, fullDateFrom, fullDateTo, dateTimeFrom, dateTimeTo, dayDate};

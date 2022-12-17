@@ -19,18 +19,8 @@ const offersByTypes = [
       },
       {
         id: 4,
-        title: 'Add meal',
-        price: 15
-      },
-      {
-        id: 5,
         title: 'Choose seats',
         price: 5
-      },
-      {
-        id: 6,
-        title: 'Travel by train',
-        price: 40
       }
     ]
   },
@@ -54,19 +44,9 @@ const offersByTypes = [
       },
       {
         id: 4,
-        title: 'Add meal',
-        price: 15
-      },
-      {
-        id: 5,
         title: 'Choose seats',
         price: 5
       },
-      {
-        id: 6,
-        title: 'Travel by train',
-        price: 40
-      }
     ]
   },
   {
@@ -89,18 +69,8 @@ const offersByTypes = [
       },
       {
         id: 4,
-        title: 'Add meal',
-        price: 15
-      },
-      {
-        id: 5,
         title: 'Choose seats',
         price: 5
-      },
-      {
-        id: 6,
-        title: 'Travel by train',
-        price: 40
       }
     ]
   },
@@ -124,19 +94,9 @@ const offersByTypes = [
       },
       {
         id: 4,
-        title: 'Add meal',
-        price: 15
-      },
-      {
-        id: 5,
         title: 'Choose seats',
         price: 5
       },
-      {
-        id: 6,
-        title: 'Travel by train',
-        price: 40
-      }
     ]
   },
   {
@@ -156,21 +116,6 @@ const offersByTypes = [
         id: 3,
         title: 'Switch to comfort class',
         price: 100
-      },
-      {
-        id: 4,
-        title: 'Add meal',
-        price: 15
-      },
-      {
-        id: 5,
-        title: 'Choose seats',
-        price: 5
-      },
-      {
-        id: 6,
-        title: 'Travel by train',
-        price: 40
       }
     ]
   },
@@ -194,19 +139,9 @@ const offersByTypes = [
       },
       {
         id: 4,
-        title: 'Add meal',
-        price: 15
-      },
-      {
-        id: 5,
         title: 'Choose seats',
         price: 5
       },
-      {
-        id: 6,
-        title: 'Travel by train',
-        price: 40
-      }
     ]
   },
   {
@@ -229,18 +164,8 @@ const offersByTypes = [
       },
       {
         id: 4,
-        title: 'Add meal',
-        price: 15
-      },
-      {
-        id: 5,
         title: 'Choose seats',
         price: 5
-      },
-      {
-        id: 6,
-        title: 'Travel by train',
-        price: 40
       }
     ]
   },
@@ -264,16 +189,6 @@ const offersByTypes = [
       },
       {
         id: 4,
-        title: 'Add meal',
-        price: 15
-      },
-      {
-        id: 5,
-        title: 'Choose seats',
-        price: 5
-      },
-      {
-        id: 6,
         title: 'Travel by train',
         price: 40
       }
@@ -289,28 +204,18 @@ const offersByTypes = [
       },
       {
         id: 2,
-        title: 'Add luggage',
-        price: 30
-      },
-      {
-        id: 3,
         title: 'Switch to comfort class',
         price: 100
       },
       {
-        id: 4,
+        id: 3,
         title: 'Add meal',
         price: 15
       },
       {
-        id: 5,
+        id: 4,
         title: 'Choose seats',
         price: 5
-      },
-      {
-        id: 6,
-        title: 'Travel by train',
-        price: 40
       }
     ]
   }
