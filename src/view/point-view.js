@@ -23,7 +23,7 @@ const createPointTemplate = (point) => {
   const pointDayDate = dayDate(dateFrom);
   const pointTypeOffers = offersByTypes.find((offer) => offer.type === point.type);
   const selectOffersTemplate = createSelectedOffersTemplate(offers, pointTypeOffers);
-  const pointDestination = destinations.find((direction) => direction.id === destination[0]);
+  const pointDestination = destinations.find((direction) => direction.id === destination);
 
   return (
     `<li class="trip-events__item">
