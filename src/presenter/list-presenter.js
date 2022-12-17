@@ -4,7 +4,7 @@ import ListView from '../view/list-view.js';
 import TripSortView from '../view/trip-sort-view.js';
 import PointView from '../view/point-view.js';
 import NewPointFormView from '../view/new-point-form-view.js';
-import EditPointFormView from '../view/edit-point-form-view.js';
+// import EditPointFormView from '../view/edit-point-form-view.js';
 
 export default class ListPresenter {
   component = new ListView();
