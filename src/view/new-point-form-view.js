@@ -1,7 +1,6 @@
 import {createElement} from '../render.js';
 import { fullDateFrom } from '../util.js';
 import { fullDateTo } from '../util.js';
-import { offersByTypes } from '../mock/additional-options.js';
 
 const BLANK_POINT = {
   basePrice: 5000,
@@ -47,7 +46,8 @@ const createPicturesTemplate = (pictures) =>
   ).join('');
 
 
-const createNewPointFormTemplate = (point) => {
+const createNewPointFormTemplate = (point, offersByTypes) => {
+
   const { basePrice, dateFrom, dateTo, destination, type, offers } = point;
   const pointDateTo = fullDateTo(dateTo);
   const pointDateFrom = fullDateFrom(dateFrom);
@@ -198,12 +198,13 @@ const createNewPointFormTemplate = (point) => {
 // }
 
 export default class NewPointFormView {
-  constructor({task = BLANK_POINT}) {
+  constructor({task = BLANK_POINT, offersByTypes}) {
     this.task = task;
+    this.offersByTypes = offersByTypes;
   }
 
   getTemplate() {
-    return createNewPointFormTemplate(this.task);
+    return createNewPointFormTemplate(this.task, this.offersByTypes);
   }
 
   getElement() {

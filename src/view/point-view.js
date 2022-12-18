@@ -2,8 +2,6 @@ import {createElement} from '../render.js';
 import { dayDate } from '../util.js';
 import { dateTimeFrom } from '../util.js';
 import { dateTimeTo } from '../util.js';
-import { offersByTypes } from '../mock/additional-options.js';
-import { destinations } from '../mock/destinations.js';
 
 
 const createSelectedOffersTemplate = (offers, pointTypeOffers) =>
@@ -16,7 +14,7 @@ const createSelectedOffersTemplate = (offers, pointTypeOffers) =>
         </li>` : '').join('');
 
 
-const createPointTemplate = (point) => {
+const createPointTemplate = (point, offersByTypes, destinations) => {
   const { basePrice, destination, type, offers, dateTo, dateFrom} = point;
   const pointTimeFrom = dateTimeFrom(dateFrom);
   const pointTimeTo = dateTimeTo(dateTo);
@@ -56,12 +54,14 @@ const createPointTemplate = (point) => {
 };
 
 export default class PointView {
-  constructor({point}) {
+  constructor({point, offersByTypes, destinations}) {
     this.point = point;
+    this.offersByTypes = offersByTypes;
+    this.destinations = destinations;
   }
 
   getTemplate() {
-    return createPointTemplate(this.point);
+    return createPointTemplate(this.point, this.offersByTypes, this.destinations);
   }
 
   getElement() {
