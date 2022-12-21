@@ -6,20 +6,7 @@ const BLANK_POINT = {
   basePrice: 5000,
   dateFrom: '2019-07-10T22:55:56.845Z',
   dateTo: '2019-07-11T11:22:13.375Z',
-  destination: {
-    id: 3,
-    description: 'Cras aliquet varius magna, non porta ligula feugiat eget.',
-    name: 'Geneva',
-    pictures:[
-      {
-        src: 'https://loremflickr.com/248/152?random=1',
-        description: 'Fusce tristique felis at fermentum pharetra.'
-      },
-      {
-        src: 'https://loremflickr.com/248/152?random=2',
-        description: 'Fusce tristique felis at fermentum pharetra.'
-      }]
-  },
+  destination: 3,
   id: 6,
   offers: [1, 3],
   type: 'flight'
@@ -46,14 +33,15 @@ const createPicturesTemplate = (pictures) =>
   ).join('');
 
 
-const createNewPointFormTemplate = (point, offersByTypes) => {
+const createNewPointFormTemplate = (point, offersByTypes, destinations) => {
 
   const { basePrice, dateFrom, dateTo, destination, type, offers } = point;
   const pointDateTo = fullDateTo(dateTo);
   const pointDateFrom = fullDateFrom(dateFrom);
   const pointTypeOffers = offersByTypes.find((offer) => offer.type === point.type);
   const additionOptionsTemplate = createAdditionOptionsTemplate(offers, pointTypeOffers);
-  const picturesTemplate = createPicturesTemplate(destination.pictures);
+  const pointNewDestination = destinations.find((direction) => direction.id === destination);
+  const picturesTemplate = createPicturesTemplate(pointNewDestination.pictures);
 
 
   return (
@@ -123,7 +111,7 @@ const createNewPointFormTemplate = (point, offersByTypes) => {
               <label class="event__label  event__type-output" for="event-destination-1">
                 ${type}
               </label>
-              <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-1">
+              <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${pointNewDestination.name}" list="destination-list-1">
               <datalist id="destination-list-1">
                 <option value="Amsterdam"></option>
                 <option value="Geneva"></option>
@@ -161,7 +149,7 @@ const createNewPointFormTemplate = (point, offersByTypes) => {
 
             <section class="event__section  event__section--destination">
               <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-              <p class="event__destination-description">${destination.description}</p>
+              <p class="event__destination-description">${pointNewDestination.description}</p>
 
               <div class="event__photos-container">
                 <div class="event__photos-tape">
@@ -175,48 +163,32 @@ const createNewPointFormTemplate = (point, offersByTypes) => {
   );
 };
 
-// export default class NewPointFormView {
-//   constructor({point = BLANK_POINT}) {
-//     this.point = point;
-//   }
-
-//   getTemplate() {
-//     return createNewPointFormTemplate(this.point);
-//   }
-
-//   getElement() {
-//     if(!this.element) {
-//       this.element = createElement(this.getTemplate());
-//     }
-
-//     return this.element;
-//   }
-
-//   removeElement() {
-//     this.element = null;
-//   }
-// }
-
 export default class NewPointFormView {
-  constructor({task = BLANK_POINT, offersByTypes}) {
-    this.task = task;
-    this.offersByTypes = offersByTypes;
+  #point = null;
+  #element = null;
+  #offersByTypes = null;
+  #destinations = null;
+
+  constructor({point = BLANK_POINT, offersByTypes, destinations}) {
+    this.#point = point;
+    this.#offersByTypes = offersByTypes;
+    this.#destinations = destinations;
   }
 
-  getTemplate() {
-    return createNewPointFormTemplate(this.task, this.offersByTypes);
+  get template() {
+    return createNewPointFormTemplate(this.#point, this.#offersByTypes, this.#destinations);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
     }
 
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }
 
