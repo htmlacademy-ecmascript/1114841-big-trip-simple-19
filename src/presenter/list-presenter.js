@@ -7,6 +7,7 @@ import TripSortView from '../view/trip-sort-view.js';
 import PointView from '../view/point-view.js';
 // import NewPointFormView from '../view/new-point-form-view.js';
 import EditPointFormView from '../view/edit-point-form-view.js';
+import NoPointView from '../view/no-point-view.js';
 
 export default class ListPresenter {
   #container = null;
@@ -22,15 +23,7 @@ export default class ListPresenter {
   init() {
     this.#listPoint = [...this.#pointModel.getPoint()];
 
-    render(this.#component, this.#container);
-    render (new TripSortView(), this.#component.element, RenderPosition.BEFOREBEGIN);
-    // render (new EditPointFormView({point: this.listPoint[0], offersByTypes, destinations}), this.component.element, RenderPosition.AFTERBEGIN);
-    // render (new NewPointFormView({point: this.listPoint[0], offersByTypes, destinations}), this.#component.element, RenderPosition.BEFOREEND);
-
-    for (let i = 0; i < this.#listPoint.length; i++) {
-      // render (new PointView({point: this.listPoint[i], offersByTypes, destinations}), this.#component.element, RenderPosition.BEFOREEND);
-      this.#renderPoint(this.#listPoint[i]);
-    }
+    this.#renderList();
   }
 
   #renderPoint(point) {
@@ -65,5 +58,20 @@ export default class ListPresenter {
     });
 
     render(pointComponent, this.#component.element, RenderPosition.BEFOREEND);
+  }
+
+  #renderList() {
+    render(this.#component, this.#container);
+
+    if (this.#listPoint.every((point) => point === null)) {
+      render(new NoPointView(), this.#component.element);
+      return;
+    }
+    // render (new EditPointFormView({point: this.listPoint[0], offersByTypes, destinations}), this.component.element, RenderPosition.AFTERBEGIN);
+    // render (new NewPointFormView({point: this.listPoint[0], offersByTypes, destinations}), this.#component.element, RenderPosition.BEFOREEND);
+    render (new TripSortView(), this.#component.element, RenderPosition.BEFOREBEGIN);
+    for (let i = 0; i < this.#listPoint.length; i++) {
+      this.#renderPoint(this.#listPoint[i]);
+    }
   }
 }
