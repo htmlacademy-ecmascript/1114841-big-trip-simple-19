@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 import { fullDateFrom } from '../util.js';
 import { fullDateTo } from '../util.js';
 
@@ -153,31 +153,28 @@ const createNewPointFormTemplate = (point, offersByTypes, destinations) => {
   );
 };
 
-export default class NewPointFormView {
+export default class NewPointFormView extends AbstractView {
   #point = null;
-  #element = null;
   #offersByTypes = null;
   #destinations = null;
+  #handleFormSubmit = null;
 
-  constructor({point, offersByTypes, destinations}) {
+  constructor({point, offersByTypes, destinations, onFormSubmit}) {
+    super();
     this.#point = point;
     this.#offersByTypes = offersByTypes;
     this.#destinations = destinations;
+    this.#handleFormSubmit = onFormSubmit;
+
+    this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
   }
 
   get template() {
     return createNewPointFormTemplate(this.#point, this.#offersByTypes, this.#destinations);
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
-  }
+  #formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleFormSubmit();
+  };
 }
