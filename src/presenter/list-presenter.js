@@ -54,6 +54,9 @@ export default class ListPresenter {
       onFormSubmit: () => {
         replaceFormToPoint.call(this);
         document.removeEventListener('keydown', escKeyDownHandler);
+      },
+      onEditCloseClick: () => {
+        replaceFormToPoint.call(this);
       }
     });
 
