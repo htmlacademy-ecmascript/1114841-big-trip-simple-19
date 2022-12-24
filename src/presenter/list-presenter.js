@@ -1,4 +1,5 @@
-import { render, replace } from '../framework/render.js';
+// import { render, replace } from '../framework/render.js';
+import { render } from '../framework/render.js';
 import { RenderPosition } from '../framework/render.js';
 import { offersByTypes } from '../mock/additional-options.js';
 import { destinations } from '../mock/destinations.js';
