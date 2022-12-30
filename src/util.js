@@ -1,5 +1,3 @@
-// import { offersByTypes } from './mock/additional-options.js';
-// import { destinations } from './mock/destinations.js';
 import dayjs from 'dayjs';
 
 const DATE_FORMAT = 'DD/MM/YY hh:mm';

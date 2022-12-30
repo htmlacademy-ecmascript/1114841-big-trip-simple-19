@@ -63,7 +63,7 @@ const createEventTypeItemTemplate = (offersByTypes, type, id) =>
 
 
 const createNewPointFormTemplate = (point) => {
-  const { basePrice, dateFrom, dateTo, destination, type, offers, offerByTypes, offersByTypes, destinations, id } = point;
+  const { basePrice, dateFrom, dateTo, destination, type, offers, offersByTypes, destinations, id } = point;
   const pointDateTo = fullDateTo(dateTo);
   const pointDateFrom = fullDateFrom(dateFrom);
   const pointTypeOffers = offersByTypes.find((offer) => offer.type === point.type);
@@ -71,8 +71,6 @@ const createNewPointFormTemplate = (point) => {
   const picturesTemplate = createPicturesTemplate(destination.pictures);
   const eventTypeItemTemplate = createEventTypeItemTemplate(offersByTypes, type, id);
   const destinationNameTemplate = createDestinationNameTemplate(destinations);
-
-
 
   return (
     `<li class="trip-events__item">
