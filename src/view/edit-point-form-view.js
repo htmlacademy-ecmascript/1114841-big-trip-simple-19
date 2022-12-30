@@ -39,11 +39,12 @@ const createEventTypeItemTemplate = (offersByTypes, type, id) =>
 
 
 const createNewPointFormTemplate = (point) => {
-  const { basePrice, dateFrom, dateTo, destination, type, offers, id, offerByTypes, offersByTypes, destinations } = point;
+  const { basePrice, dateFrom, dateTo, type, offers, id, offerByTypes, offersByTypes, destinations } = point;
   const pointDateTo = fullDateTo(dateTo);
   const pointDateFrom = fullDateFrom(dateFrom);
   const additionOptionsTemplate = createAdditionOptionsTemplate(offers, offerByTypes);
-  const picturesTemplate = createPicturesTemplate(destination.pictures);
+  const pointDestination = destinations.find((direction) => direction.id === point.destination);
+  const picturesTemplate = createPicturesTemplate(pointDestination.pictures);
   const eventTypeItemTemplate = createEventTypeItemTemplate(offersByTypes, type, id);
   const destinationNameTemplate = createDestinationNameTemplate(destinations);
 
@@ -72,7 +73,7 @@ const createNewPointFormTemplate = (point) => {
                     <label class="event__label  event__type-output" for="event-destination-1">
                      ${type}
                     </label>
-                    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-${id}">
+                    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${pointDestination.name}" list="destination-list-${id}">
                     <datalist id="destination-list-${id}">
                       ${destinationNameTemplate}
                     </datalist>
@@ -111,7 +112,7 @@ const createNewPointFormTemplate = (point) => {
 
                   <section class="event__section  event__section--destination">
                     <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-                    <p class="event__destination-description">${destination.description}</p>
+                    <p class="event__destination-description">${pointDestination.description}</p>
 
                     <div class="event__photos-container">
                       <div class="event__photos-tape">
@@ -127,16 +128,12 @@ const createNewPointFormTemplate = (point) => {
 
 export default class NewPointFormView extends AbstractView {
   #point = null;
-  #offersByTypes = null;
-  #destinations = null;
   #handleFormSubmit = null;
   #handleEditCloseClick = null;
 
-  constructor({point, offersByTypes, destinations, onFormSubmit, onEditCloseClick}) {
+  constructor({point, onFormSubmit, onEditCloseClick}) {
     super();
     this.#point = point;
-    this.#offersByTypes = offersByTypes;
-    this.#destinations = destinations;
     this.#handleFormSubmit = onFormSubmit;
     this.#handleEditCloseClick = onEditCloseClick;
 
@@ -146,7 +143,7 @@ export default class NewPointFormView extends AbstractView {
   }
 
   get template() {
-    return createNewPointFormTemplate(this.#point, this.#offersByTypes, this.#destinations);
+    return createNewPointFormTemplate(this.#point);
   }
 
   #formSubmitHandler = (evt) => {

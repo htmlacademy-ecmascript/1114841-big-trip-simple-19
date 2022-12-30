@@ -149,18 +149,14 @@ const createNewPointFormTemplate = (point) => {
 
 export default class NewPointFormView extends AbstractView {
   #point = null;
-  #offersByTypes = null;
-  #destinations = null;
 
-  constructor({point = BLANK_POINT, offersByTypes, destinations}) {
+  constructor({point = BLANK_POINT}) {
     super();
     this.#point = point;
-    this.#offersByTypes = offersByTypes;
-    this.#destinations = destinations;
   }
 
   get template() {
-    return createNewPointFormTemplate(this.#point, this.#offersByTypes, this.#destinations);
+    return createNewPointFormTemplate(this.#point);
   }
 }
 

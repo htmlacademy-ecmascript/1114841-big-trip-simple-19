@@ -16,8 +16,8 @@ export default class PointModel {
     return this.#points.map((point) => {
       // const {offers} = point;
       const offerByTypes = this.#allOffers.find((offer) => offer.type === point.type);
-      const pointDestination = this.#destinations.find((direction) => direction.id === point.destination);
-      point.destination = pointDestination;
+      // point.destination = this.#destinations.find((direction) => direction.id === point.destination);
+      // point.destination = pointDestination;
       // const checkedOffer = [];
       // offerByTypes.offers.map((offer) => {
       //   if (offers.includes(offer.id)) {

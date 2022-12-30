@@ -55,8 +55,8 @@ const routPoints = [
   },
   {
     basePrice: 2500,
-    dateFrom: '2019-07-10T22:55:56.845Z',
-    dateTo: '2019-07-11T11:22:13.375Z',
+    dateFrom: '2023-07-25T22:55:56.845Z',
+    dateTo: '2023-08-05T11:22:13.375Z',
     destination: 3,
     id: 7,
     offers: [1, 3],
@@ -64,8 +64,8 @@ const routPoints = [
   },
   {
     basePrice: 8000,
-    dateFrom: '2019-07-10T22:55:56.845Z',
-    dateTo: '2019-07-11T11:22:13.375Z',
+    dateFrom: '2023-07-22T22:55:56.845Z',
+    dateTo: '2023-07-25T11:22:13.375Z',
     destination: 3,
     id: 8,
     offers: [3, 4],
@@ -73,8 +73,8 @@ const routPoints = [
   },
   {
     basePrice: 300,
-    dateFrom: '2019-07-10T22:55:56.845Z',
-    dateTo: '2019-07-11T11:22:13.375Z',
+    dateFrom: '2023-05-10T22:55:56.845Z',
+    dateTo: '2023-05-11T11:22:13.375Z',
     destination: 3,
     id: 9,
     offers: [2, 4],
