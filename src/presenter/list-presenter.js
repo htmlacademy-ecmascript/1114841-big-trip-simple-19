@@ -1,12 +1,10 @@
 // import { render, replace } from '../framework/render.js';
 import { render } from '../framework/render.js';
 import { RenderPosition } from '../framework/render.js';
-import { offersByTypes } from '../mock/additional-options.js';
-import { destinations } from '../mock/destinations.js';
 import ListView from '../view/list-view.js';
 import TripSortView from '../view/trip-sort-view.js';
 import PointView from '../view/point-view.js';
-// import NewPointFormView from '../view/new-point-form-view.js';
+import NewPointFormView from '../view/new-point-form-view.js';
 import EditPointFormView from '../view/edit-point-form-view.js';
 import NoPointView from '../view/no-point-view.js';
 
@@ -22,8 +20,7 @@ export default class ListPresenter {
   }
 
   init() {
-    this.#listPoint = [...this.#pointModel.getPoint()];
-
+    this.#listPoint = [...this.#pointModel.point];
     this.#renderList();
   }
 
@@ -39,8 +36,6 @@ export default class ListPresenter {
 
     const pointComponent = new PointView({
       point,
-      offersByTypes,
-      destinations,
       onEditClick: () => {
         replacePointToForm.call(this);
         document.addEventListener('keydown', escKeyDownHandler);
@@ -49,8 +44,6 @@ export default class ListPresenter {
 
     const pointEditComponet = new EditPointFormView({
       point,
-      offersByTypes,
-      destinations,
       onFormSubmit: () => {
         replaceFormToPoint.call(this);
         document.removeEventListener('keydown', escKeyDownHandler);
@@ -86,8 +79,8 @@ export default class ListPresenter {
       render(new NoPointView(), this.#component.element, RenderPosition.BEFOREBEGIN);
       return;
     }
-    // render (new EditPointFormView({point: this.listPoint[0], offersByTypes, destinations}), this.component.element, RenderPosition.AFTERBEGIN);
-    // render (new NewPointFormView({point: this.listPoint[0], offersByTypes, destinations}), this.#component.element, RenderPosition.BEFOREEND);
+    // render (new EditPointFormView({point: this.listPoint[0]}), this.component.element, RenderPosition.AFTERBEGIN);
+    render (new NewPointFormView({point: this.#listPoint[0]}), this.#component.element, RenderPosition.BEFOREEND);
     render (new TripSortView(), this.#component.element, RenderPosition.BEFOREBEGIN);
     for (let i = 0; i < this.#listPoint.length; i++) {
       this.#renderPoint(this.#listPoint[i]);
