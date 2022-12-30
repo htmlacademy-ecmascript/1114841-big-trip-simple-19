@@ -1,7 +1,5 @@
-import {createElement} from '../render.js';
-import { dayDate } from '../util.js';
-import { dateTimeFrom } from '../util.js';
-import { dateTimeTo } from '../util.js';
+import AbstractView from '../framework/view/abstract-view.js';
+import { dayDate, dateTimeFrom, dateTimeTo, machineDayDate, machineDateTimeFrom, machineDateTimeTo } from '../util.js';
 
 
 const createSelectedOffersTemplate = (offers, pointTypeOffers) =>
@@ -14,28 +12,29 @@ const createSelectedOffersTemplate = (offers, pointTypeOffers) =>
         </li>` : '').join('');
 
 
-const createPointTemplate = (point, offersByTypes, destinations) => {
-  const { basePrice, destination, type, offers, dateTo, dateFrom} = point;
+const createPointTemplate = (point) => {
+  const { basePrice, destination, type, offers, dateTo, dateFrom, offerByTypes } = point;
   const pointTimeFrom = dateTimeFrom(dateFrom);
   const pointTimeTo = dateTimeTo(dateTo);
+  const machinePointTimeFrom = machineDateTimeFrom(dateFrom);
+  const machinePointTimeTo = machineDateTimeTo(dateTo);
   const pointDayDate = dayDate(dateFrom);
-  const pointTypeOffers = offersByTypes.find((offer) => offer.type === point.type);
-  const selectOffersTemplate = createSelectedOffersTemplate(offers, pointTypeOffers);
-  const pointDestination = destinations.find((direction) => direction.id === destination);
+  const machinePointDayDate = machineDayDate(dateFrom);
+  const selectOffersTemplate = createSelectedOffersTemplate(offers, offerByTypes);
 
   return (
     `<li class="trip-events__item">
     <div class="event">
-      <time class="event__date" datetime="2019-03-18">${pointDayDate}</time>
+      <time class="event__date" datetime="${machinePointDayDate}">${pointDayDate}</time>
       <div class="event__type">
         <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
       </div>
-      <h3 class="event__title">${`${type } ${ pointDestination.name}`}</h3>
+      <h3 class="event__title">${`${type } ${ destination.name}`}</h3>
       <div class="event__schedule">
         <p class="event__time">
-          <time class="event__start-time" datetime="2019-03-18T10:30">${pointTimeFrom}</time>
+          <time class="event__start-time" datetime="${machinePointTimeFrom}">${pointTimeFrom}</time>
           &mdash;
-          <time class="event__end-time" datetime="2019-03-18T11:00">${pointTimeTo}</time>
+          <time class="event__end-time" datetime="${machinePointTimeTo}">${pointTimeTo}</time>
         </p>
       </div>
       <p class="event__price">
@@ -53,31 +52,29 @@ const createPointTemplate = (point, offersByTypes, destinations) => {
   );
 };
 
-export default class PointView {
+export default class PointView extends AbstractView {
   #point = null;
-  #element = null;
   #offersByTypes = null;
   #destinations = null;
+  #handleEditClick = null;
 
-  constructor({point, offersByTypes, destinations}) {
+  constructor({point, offersByTypes, destinations,onEditClick}) {
+    super();
     this.#point = point;
     this.#offersByTypes = offersByTypes;
     this.#destinations = destinations;
+    this.#handleEditClick = onEditClick;
+
+    this.element.querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#editClickHandler);
   }
 
   get template() {
     return createPointTemplate(this.#point, this.#offersByTypes, this.#destinations);
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
-  }
+  #editClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleEditClick();
+  };
 }

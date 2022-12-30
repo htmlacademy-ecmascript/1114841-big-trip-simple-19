@@ -1,5 +1,3 @@
-import { getRandomArrayElement } from '../util.js';
-
 const routPoints = [
   {
     basePrice: 1100,
@@ -84,6 +82,4 @@ const routPoints = [
   }
 ];
 
-const getRandomPoint = () => getRandomArrayElement(routPoints);
-
-export {routPoints, getRandomPoint};
+export {routPoints};
