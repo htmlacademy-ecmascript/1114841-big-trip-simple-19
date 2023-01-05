@@ -73,8 +73,8 @@ const routPoints = [
   },
   {
     basePrice: 300,
-    dateFrom: '2023-05-10T22:55:56.845Z',
-    dateTo: '2023-05-11T11:22:13.375Z',
+    dateFrom: '2023-05-15T22:55:56.845Z',
+    dateTo: '2023-05-16T11:22:13.375Z',
     destination: 3,
     id: 9,
     offers: [2, 4],

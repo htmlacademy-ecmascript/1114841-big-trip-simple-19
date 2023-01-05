@@ -6,11 +6,11 @@ const createTripFiltersTemplate = (points) => {
 
   const disabledPoints = points.map((point) =>{
     const currentDate = new Date(point.dateTo);
-    const disableDate = dateNow > currentDate.getTime() ? 'disabled' : '';
+    const disableDate = dateNow > currentDate.getTime() ? 'disabled' : ' ';
     return disableDate;
   });
-  const disabled = disabledPoints.find((disabledPoint) => disabledPoint === 'disabled');
-  // console.log(disabled)
+  const disabled = disabledPoints.find((disabledPoint) => disabledPoint === ' ') ? ' ' : 'disabled' ;
+
   return (
     `<form class="trip-filters" action="#" method="get">
     <div class="trip-filters__filter">
