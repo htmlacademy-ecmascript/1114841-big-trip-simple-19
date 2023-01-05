@@ -14,19 +14,12 @@ export default class PointModel {
 
   get point() {
     return this.#points.map((point) => {
-      // const {offers} = point;
       const offerByTypes = this.#allOffers.find((offer) => offer.type === point.type);
-      const pointDestination = this.#destinations.find((direction) => direction.id === point.destination);
-      point.destination = pointDestination;
-      // const checkedOffer = [];
-      // offerByTypes.offers.map((offer) => {
-      //   if (offers.includes(offer.id)) {
-      //     checkedOffer.push(offer);
-      //   }
-      // });
-      // point.offers = checkedOffer;
+      const destination = this.#destinations.find((direction) => direction.id === point.destination);
+      // const destination = pointDestination;
       return {
         ...point,
+        destination,
         offerByTypes,
         offersByTypes,
         destinations

@@ -4,7 +4,7 @@ import { RenderPosition } from '../framework/render.js';
 import ListView from '../view/list-view.js';
 import TripSortView from '../view/trip-sort-view.js';
 import PointView from '../view/point-view.js';
-import NewPointFormView from '../view/new-point-form-view.js';
+// import NewPointFormView from '../view/new-point-form-view.js';
 import EditPointFormView from '../view/edit-point-form-view.js';
 import NoPointView from '../view/no-point-view.js';
 
@@ -80,7 +80,7 @@ export default class ListPresenter {
       return;
     }
     // render (new EditPointFormView({point: this.listPoint[0]}), this.component.element, RenderPosition.AFTERBEGIN);
-    render (new NewPointFormView({point: this.#listPoint[0]}), this.#component.element, RenderPosition.BEFOREEND);
+    // render (new NewPointFormView({point: this.#listPoint[0]}), this.#component.element, RenderPosition.BEFOREEND);
     render (new TripSortView(), this.#component.element, RenderPosition.BEFOREBEGIN);
     for (let i = 0; i < this.#listPoint.length; i++) {
       this.#renderPoint(this.#listPoint[i]);
