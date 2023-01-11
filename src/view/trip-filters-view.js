@@ -9,7 +9,7 @@ const createTripFiltersTemplate = (points) => {
     const disableDate = dateNow > currentDate.getTime() ? 'disabled' : 'included';
     return disableDate;
   });
-  const disabled = disabledPoints.find((disabledPoint) => disabledPoint === 'included') ? ' ' : 'disabled' ;
+  const disabled = disabledPoints.find((disabledPoint) => disabledPoint === 'included') ? '' : 'disabled' ;
 
   return (
     `<form class="trip-filters" action="#" method="get">
