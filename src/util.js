@@ -21,24 +21,6 @@ const getRandomArrayElement = (items) => items[Math.floor(Math.random() * items.
 const getRandom = (items) => items[Math.floor(Math.random() * items.length)];
 
 
-// const getOffers = (items) => {
-//   const newOffers = [];
+const updateItem = (items, update) => items.map((item) => item.id === update.id ? update : item);
 
-//   for (const item of items) {
-//     const offer = offersByTypes.find((offerByTypes) => offerByTypes.id === item);
-//     newOffers.push(offer);
-//   }
-//   return newOffers;
-// };
-
-// const getDestination = (items) => {
-//   const newDestinations = [];
-
-//   for (const item of items) {
-//     const direction = destinations.find((destination) => destination.id === item);
-//     newDestinations.push(direction);
-//   }
-//   return newDestinations;
-// };
-
-export {getRandomArrayElement, getRandom, fullDateFrom, fullDateTo, dateTimeFrom, dateTimeTo, dayDate, machineDayDate, machineDateTimeFrom, machineDateTimeTo};
+export {getRandomArrayElement, getRandom, fullDateFrom, fullDateTo, dateTimeFrom, dateTimeTo, dayDate, machineDayDate, machineDateTimeFrom, machineDateTimeTo, updateItem};
