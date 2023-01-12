@@ -6,7 +6,7 @@ import EditPointFormView from '../view/edit-point-form-view.js';
 const Mode = {
   DEFAULT: 'DEFAULT',
   EDITING: 'EDITING',
-}
+};
 
 export default class PointPresenter {
   #container = null;
@@ -98,7 +98,7 @@ export default class PointPresenter {
 
   #handleFormClick = () =>{
     this.#replaceFormToPoint();
-  }
+  };
 
   #handleFormSubmit = (point) => {
     this.#handleDataChange(point);
