@@ -29,10 +29,15 @@ export default class ListPresenter {
     this.#pointPresenters.get(updatePoint.id).init(updatePoint);
   };
 
-  #renderPoint(point) {
+  #handleModeChange = () => {
+    this.#pointPresenters.forEach((presenter) => presenter.resetView());
+  }
 
+  #renderPoint(point) {
     const pointPresenter = new PointPresenter({
       container: this.#component.element,
+      onDataChange: this.#handlePointChange,
+      onModeChange: this.#handleModeChange
     });
 
     pointPresenter.init(point);
