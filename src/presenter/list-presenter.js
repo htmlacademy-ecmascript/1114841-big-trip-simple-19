@@ -31,7 +31,7 @@ export default class ListPresenter {
 
   #handleModeChange = () => {
     this.#pointPresenters.forEach((presenter) => presenter.resetView());
-  }
+  };
 
   #renderPoint(point) {
     const pointPresenter = new PointPresenter({
