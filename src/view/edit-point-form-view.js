@@ -1,6 +1,6 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { fullDateFrom } from '../util.js';
-import { fullDateTo } from '../util.js';
+import { fullDateFrom } from '../util/util.js';
+import { fullDateTo } from '../util/util.js';
 
 const createAdditionOptionsTemplate = (offers, pointTypeOffers) =>
 

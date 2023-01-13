@@ -23,4 +23,32 @@ const getRandom = (items) => items[Math.floor(Math.random() * items.length)];
 
 const updateItem = (items, update) => items.map((item) => item.id === update.id ? update : item);
 
-export {getRandomArrayElement, getRandom, fullDateFrom, fullDateTo, dateTimeFrom, dateTimeTo, dayDate, machineDayDate, machineDateTimeFrom, machineDateTimeTo, updateItem};
+const getWeightForNullDate = (dateA, dateB) => {
+  if (dateA === null && dateB === null) {
+    return 0;
+  }
+
+  if (dateA === null) {
+    return 1;
+  }
+
+  if (dateB === null) {
+    return -1;
+  }
+
+  return null;
+};
+
+const sortPointDay = (pointA, pointB) => {
+  const weight = getWeightForNullDate(pointA.dateFrom, pointB.dateFrom);
+
+  return weight ?? dayjs(pointA.dateFrom).diff(dayjs(pointB.dateFrom));
+};
+
+const sortPointPrice = (pointA, pointB) => {
+  const weight = getWeightForNullDate(pointA.basePrice, pointB.basePrice);
+
+  return weight ?? dayjs(pointB.basePrice).diff(dayjs(pointA.basePrice));
+};
+
+export {getRandomArrayElement, getRandom, fullDateFrom, fullDateTo, dateTimeFrom, dateTimeTo, dayDate, machineDayDate, machineDateTimeFrom, machineDateTimeTo, updateItem, sortPointDay, sortPointPrice};

@@ -5,7 +5,9 @@ import TripSortView from '../view/trip-sort-view.js';
 // import NewPointFormView from '../view/new-point-form-view.js';
 import NoPointView from '../view/no-point-view.js';
 import PointPresenter from './point-presenter.js';
-import { updateItem } from '../util.js';
+import { updateItem } from '../util/util.js';
+import { SortType } from '../const.js';
+import { sortPointDay, sortPointPrice } from '../util/util.js';
 
 export default class ListPresenter {
   #container = null;
@@ -13,6 +15,11 @@ export default class ListPresenter {
   #listPoints = null;
   #component = new ListView();
   #pointPresenters = new Map();
+  #currentSortType = SortType.DAY;
+
+  // #sortComponent = new TripSortView;
+  #sortComponent = null;
+  #noTaskComponent = new NoPointView();
 
   constructor({container, pointModel}) {
     this.#container = container;
@@ -21,7 +28,9 @@ export default class ListPresenter {
 
   init() {
     this.#listPoints = [...this.#pointModel.point];
+    this.#listPoints.sort(sortPointDay);
     this.#renderList();
+    this.#renderSort();
   }
 
   #handlePointChange = (updatePoint) => {
@@ -29,8 +38,33 @@ export default class ListPresenter {
     this.#pointPresenters.get(updatePoint.id).init(updatePoint);
   };
 
+  #sortPoints(sortType) {
+    switch(sortType) {
+      case SortType.DAY:
+        this.#listPoints.sort(sortPointDay);
+        break;
+      case SortType.PRICE:
+        this.#listPoints.sort(sortPointPrice);
+        break;
+    }
+
+    this.#currentSortType = sortType;
+  }
+
   #handleModeChange = () => {
     this.#pointPresenters.forEach((presenter) => presenter.resetView());
+  };
+
+  #handleSortTypeChange = (sortType) => {
+    // - Сортируем задачи
+    if (this.#currentSortType === sortType) {
+      return;
+    }
+    this.#sortPoints(sortType);
+    // - Очищаем список
+    // - Рендерим список заново
+    this.#clearPointList();
+    this.#renderList();
   };
 
   #renderPoint(point) {
@@ -49,16 +83,27 @@ export default class ListPresenter {
     this.#pointPresenters.clear();
   }
 
-  #renderList() {
-    render(this.#component, this.#container);
-
+  #renderSort() {
+    this.#sortComponent = new TripSortView({
+      onSortTypeChange: this.#handleSortTypeChange
+    });
     if (this.#listPoints.every((point) => point === null)) {
-      render(new NoPointView(), this.#component.element, RenderPosition.BEFOREBEGIN);
       return;
     }
+    render (this.#sortComponent, this.#component.element, RenderPosition.BEFOREBEGIN);
+  }
+
+  #renderNoTaskComponent() {
+    if (this.#listPoints.every((point) => point === null)) {
+      render(this.#noTaskComponent, this.#component.element, RenderPosition.BEFOREBEGIN);
+    }
+  }
+
+  #renderList() {
+    render(this.#component, this.#container);
+    this.#renderNoTaskComponent();
     // render (new EditPointFormView({point: this.listPoints[0]}), this.component.element, RenderPosition.AFTERBEGIN);
     // render (new NewPointFormView({point: this.#listPoints[0]}), this.#component.element, RenderPosition.BEFOREEND);
-    render (new TripSortView(), this.#component.element, RenderPosition.BEFOREBEGIN);
     for (let i = 0; i < this.#listPoints.length; i++) {
       this.#renderPoint(this.#listPoints[i]);
     }

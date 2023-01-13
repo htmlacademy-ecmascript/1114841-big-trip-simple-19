@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { dayDate, dateTimeFrom, dateTimeTo, machineDayDate, machineDateTimeFrom, machineDateTimeTo } from '../util.js';
+import { dayDate, dateTimeFrom, dateTimeTo, machineDayDate, machineDateTimeFrom, machineDateTimeTo } from '../util/util.js';
 
 
 const createSelectedOffersTemplate = (offers, pointTypeOffers) =>

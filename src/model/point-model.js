@@ -1,4 +1,4 @@
-import { getRandomArrayElement } from '../util.js';
+import { getRandomArrayElement } from '../util/util.js';
 import { routPoints } from '../mock/rout-points.js';
 import { offersByTypes } from '../mock/additional-options.js';
 import { destinations } from '../mock/destinations.js';
