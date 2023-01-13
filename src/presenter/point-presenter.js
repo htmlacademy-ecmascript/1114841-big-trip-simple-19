@@ -96,7 +96,7 @@ export default class PointPresenter {
     this.#replacePointToForm();
   };
 
-  #handleFormClick = () =>{
+  #handleFormClick = () => {
     this.#replaceFormToPoint();
   };
 
