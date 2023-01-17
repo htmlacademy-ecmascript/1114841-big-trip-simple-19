@@ -158,9 +158,9 @@ export default class EditPointFormView extends AbstractStatefulView {
   // #consoleClick = (type, _state) => {
   //   console.log(type)
   //   console.log(this._state)
-    // const offerByTypes = this._state.offersByTypes.find((offer) => offer.type === type);
-    // console.log(offerByTypes)
-    // return offerByTypes;
+  // const offerByTypes = this._state.offersByTypes.find((offer) => offer.type === type);
+  // console.log(offerByTypes)
+  // return offerByTypes;
   // }
 
   // #eventType = () => {
@@ -176,8 +176,8 @@ export default class EditPointFormView extends AbstractStatefulView {
       type : evt.target.previousElementSibling.value
 
     });
-    console.log(this._state.offersByTypes);
-    console.log(this._state.type);
+    // console.log(this._state.offersByTypes);
+    // console.log(this._state.type);
   };
 
   #formSubmitHandler = (evt) => {
