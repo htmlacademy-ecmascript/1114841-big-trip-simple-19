@@ -1,4 +1,4 @@
-import AbstractView from '../framework/view/abstract-view.js';
+import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { fullDateFrom } from '../util/util.js';
 import { fullDateTo } from '../util/util.js';
 
@@ -28,6 +28,7 @@ const createPicturesTemplate = (pictures) =>
   ).join('');
 
 const createEventTypeItemTemplate = (offersByTypes, type, id) =>
+
   offersByTypes.map((offer) => {
     const checkedType = offer.type.includes(type) ? 'checked' : '';
     return (
@@ -38,7 +39,8 @@ const createEventTypeItemTemplate = (offersByTypes, type, id) =>
   }).join('');
 
 
-const createNewPointFormTemplate = (point) => {
+const createEditPointFormTemplate = (point) => {
+  // console.log(point)
   const { basePrice, dateFrom, dateTo, destination, type, offers, id, offerByTypes, offersByTypes, destinations } = point;
   const pointDateTo = fullDateTo(dateTo);
   const pointDateFrom = fullDateFrom(dateFrom);
@@ -125,32 +127,81 @@ const createNewPointFormTemplate = (point) => {
   );
 };
 
-export default class NewPointFormView extends AbstractView {
-  #point = null;
+export default class EditPointFormView extends AbstractStatefulView {
+  // #point = null;
   #handleFormSubmit = null;
   #handleEditCloseClick = null;
 
   constructor({point, onFormSubmit, onEditCloseClick}) {
     super();
-    this.#point = point;
+    // this.#point = point;
+    // console.log(point)
+    this._setState(EditPointFormView.parsePointToState(point));
     this.#handleFormSubmit = onFormSubmit;
     this.#handleEditCloseClick = onEditCloseClick;
 
-    this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
-    this.element.querySelector('.event__rollup-btn')
-      .addEventListener('click', this.#editCloseHandler);
+    this._restoreHandlers();
   }
 
   get template() {
-    return createNewPointFormTemplate(this.#point);
+    return createEditPointFormTemplate(this._state);
   }
+
+  _restoreHandlers() {
+    this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editCloseHandler);
+    // this.element.querySelector('.event__type-group').addEventListener('click', this.#consoleClick);
+    // this.element.querySelector('.event__type').addEventListener('click', this.#eventType);
+    this.element.querySelector('.event__type-group').addEventListener('click', this.#eventTypeHandler);
+  }
+
+  // #consoleClick = (type, _state) => {
+  //   console.log(type)
+  //   console.log(this._state)
+    // const offerByTypes = this._state.offersByTypes.find((offer) => offer.type === type);
+    // console.log(offerByTypes)
+    // return offerByTypes;
+  // }
+
+  // #eventType = () => {
+  //   this.element.querySelectorAll('.event__type-item').addEventListener('click', this.#eventTypeHandler);
+  // }
+
+
+  #eventTypeHandler = (evt) => {
+    // console.log(evt.target.previousElementSibling.value);
+    // evt.preventDefault()
+    this.updateElement({
+
+      type : evt.target.previousElementSibling.value
+
+    });
+    console.log(this._state.offersByTypes);
+    console.log(this._state.type);
+  };
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this.#handleFormSubmit(this.#point);
+    this.#handleFormSubmit(EditPointFormView.parsePointToState(this._state));
   };
 
   #editCloseHandler = () => {
     this.#handleEditCloseClick();
   };
+
+  static parsePointToState(point) {
+    return {...point,
+      // isStateType: _state.type === point.type,
+      // isDestination: getPointDestination(point),
+    };
+  }
+
+  static parseStateToPoint(state) {
+    const point = {...state};
+
+
+    // delete point.isOfferByType;
+
+    return point;
+  }
 }
