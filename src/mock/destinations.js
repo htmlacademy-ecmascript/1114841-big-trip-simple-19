@@ -20,38 +20,38 @@ const destinations = [
   },
   {
     id: 2,
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    description: 'Amsterdam. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
     name: 'Amsterdam',
     pictures: [
       {
-        src: 'https://loremflickr.com/248/152?random=1',
+        src: 'https://loremflickr.com/248/152?random=11',
         description: 'Chamonix parliament building'
       },
       {
-        src: 'https://loremflickr.com/248/152?random=2',
+        src: 'https://loremflickr.com/248/152?random=12',
         description: 'Chamonix parliament building'
       },
       {
-        src: 'https://loremflickr.com/248/152?random=3',
+        src: 'https://loremflickr.com/248/152?random=13',
         description: 'Chamonix parliament building'
       },
       {
-        src: 'https://loremflickr.com/248/152?random=4',
+        src: 'https://loremflickr.com/248/152?random=14',
         description: 'Chamonix parliament building'
       }
     ]
   },
   {
     id: 3,
-    description: 'Cras aliquet varius magna, non porta ligula feugiat eget.',
+    description: 'Geneva. Cras aliquet varius magna, non porta ligula feugiat eget.',
     name: 'Geneva',
     pictures: [
       {
-        src: 'https://loremflickr.com/248/152?random=1',
+        src: 'https://loremflickr.com/248/152?random=21',
         description: 'Chamonix parliament building'
       },
       {
-        src: 'https://loremflickr.com/248/152?random=2',
+        src: 'https://loremflickr.com/248/152?random=22',
         description: 'Chamonix parliament building'
       }
     ]

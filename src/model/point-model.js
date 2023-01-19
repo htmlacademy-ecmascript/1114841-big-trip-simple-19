@@ -4,7 +4,7 @@ import { offersByTypes } from '../mock/additional-options.js';
 import { destinations } from '../mock/destinations.js';
 import { nanoid } from 'nanoid';
 
-const POINT_COUNT = 1;
+const POINT_COUNT = 5;
 
 const getRandomPoint = () => ({
   id:nanoid(),
