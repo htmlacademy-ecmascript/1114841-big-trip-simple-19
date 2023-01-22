@@ -1,6 +1,8 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { fullDateFrom } from '../util/util.js';
 import { fullDateTo } from '../util/util.js';
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
 
 const createAdditionOptionsTemplate = (offers, pointTypeOffers) =>
 
@@ -131,6 +133,8 @@ const createEditPointFormTemplate = (point) => {
 export default class EditPointFormView extends AbstractStatefulView {
   #handleFormSubmit = null;
   #handleEditCloseClick = null;
+  #datepickerStart = null;
+  #datepickerEnd = null;
 
   constructor({point, onFormSubmit, onEditCloseClick}) {
     super();
@@ -145,6 +149,20 @@ export default class EditPointFormView extends AbstractStatefulView {
     return createEditPointFormTemplate(this._state);
   }
 
+  removeElement() {
+    super.removeElement();
+
+    if (this.#datepickerStart) {
+      this.#datepickerStart.destroy();
+      this.#datepickerStart = null;
+    }
+
+    if (this.#datepickerEnd) {
+      this.#datepickerEnd.destroy();
+      this.#datepickerEnd = null;
+    }
+  }
+
   reset(point) {
     this.updateElement(
       EditPointFormView.parsePointToState(point)
@@ -156,21 +174,23 @@ export default class EditPointFormView extends AbstractStatefulView {
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editCloseHandler);
     this.element.querySelector('.event__type-group').addEventListener('change', this.#eventTypeHandler);
     this.element.querySelector('.event__field-group').addEventListener('change', this.#eventDestinationHandler);
+    this.#setDatepickerStart();
+    this.#setDatepickerEnd();
   }
 
   #eventTypeHandler = (evt) => {
-    this._state.type = evt.target.value;
-    const offerByTypes = this._state.offersByTypes.find((offer) => offer.type === this._state.type);
+    const newType = evt.target.value;
+    const newOfferByTypes = this._state.offersByTypes.find((offer) => offer.type === newType);
 
     this.updateElement({
-      type : this._state.type,
-      offerByTypes : offerByTypes,
+      type : newType,
+      offerByTypes : newOfferByTypes,
     });
   };
 
   #eventDestinationHandler = (evt) => {
-    const name = evt.target.value;
-    const newDestination = this._state.destinations.find((direction) => direction.name === name);
+    const newName = evt.target.value;
+    const newDestination = this._state.destinations.find((direction) => direction.name === newName);
 
     this.updateElement({
       destination : newDestination,
@@ -186,14 +206,54 @@ export default class EditPointFormView extends AbstractStatefulView {
     this.#handleEditCloseClick();
   };
 
+  #dateStartChangeHandler = ([userDate]) => {
+    this.updateElement({
+      dateFrom: userDate,
+    });
+  };
+
+  #dateEndChangeHandler = ([userDate]) => {
+    this.updateElement({
+      dateTo: userDate,
+    });
+  };
+
+  #setDatepickerStart() {
+    this.#datepickerStart = flatpickr(
+      this.element.querySelector('[name=event-start-time]'),
+      {
+        dateFormat: 'd/m/y H:i',
+        enableTime: true,
+        // eslint-disable-next-line camelcase
+        time_24hr: true,
+        defaultDate: this._state.dateFrom,
+        onChange: this.#dateStartChangeHandler,
+      }
+    );
+  }
+
+  #setDatepickerEnd() {
+    this.#datepickerEnd = flatpickr(
+      this.element.querySelector('[name=event-end-time]'),
+      {
+        dateFormat: 'd/m/y H:i',
+        enableTime: true,
+        // eslint-disable-next-line camelcase
+        time_24hr: true,
+        defaultDate: this._state.dateTo,
+        onChange: this.#dateEndChangeHandler,
+      }
+    );
+  }
+
   static parsePointToState(point) {
     return {...point,
     };
   }
 
   static parseStateToPoint(state) {
-    const point = {...state};
-
+    const point = {...state
+    };
     return point;
   }
 }
