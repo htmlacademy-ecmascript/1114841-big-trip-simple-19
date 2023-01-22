@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
-const DATE_FORMAT = 'DD/MM/YY hh:mm';
-const TIME_FORMAT = 'hh:mm';
+const DATE_FORMAT = 'DD/MM/YY HH:mm';
+const TIME_FORMAT = 'HH:mm';
 const DAY_FORMAT = 'DD MMM';
 const MACHINE_DAY_FORMAT = 'YYYY-MM-DD';
 const MACHINE_TIME_FORMAT = 'YYYY-MM-DDThh:mm';
@@ -22,28 +22,6 @@ const getRandom = (items) => items[Math.floor(Math.random() * items.length)];
 
 
 const updateItem = (items, update) => items.map((item) => item.id === update.id ? update : item);
-
-// const getWeightForNullDate = (dateA, dateB) => {
-//   if (dateA === null && dateB === null) {
-//     return 0;
-//   }
-
-//   if (dateA === null) {
-//     return 1;
-//   }
-
-//   if (dateB === null) {
-//     return -1;
-//   }
-
-//   return null;
-// };
-
-// const sortPointDay = (pointA, pointB) => {
-//   const weight = getWeightForNullDate(pointA.dateFrom, pointB.dateFrom);
-
-//   return weight ?? dayjs(pointA.dateFrom).diff(dayjs(pointB.dateFrom));
-// };
 
 const sortPointDay = (pointA, pointB) => dayjs(pointA.dateFrom).diff(dayjs(pointB.dateFrom));
 
