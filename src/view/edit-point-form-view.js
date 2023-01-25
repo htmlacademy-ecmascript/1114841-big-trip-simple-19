@@ -133,14 +133,16 @@ const createEditPointFormTemplate = (point) => {
 export default class EditPointFormView extends AbstractStatefulView {
   #handleFormSubmit = null;
   #handleEditCloseClick = null;
+  #handleDeleteClick = null;
   #datepickerStart = null;
   #datepickerEnd = null;
 
-  constructor({point, onFormSubmit, onEditCloseClick}) {
+  constructor({point, onFormSubmit, onEditCloseClick, onDeleteClick}) {
     super();
     this._setState(EditPointFormView.parsePointToState(point));
     this.#handleFormSubmit = onFormSubmit;
     this.#handleEditCloseClick = onEditCloseClick;
+    this.#handleDeleteClick = onDeleteClick;
 
     this._restoreHandlers();
   }
@@ -172,6 +174,7 @@ export default class EditPointFormView extends AbstractStatefulView {
   _restoreHandlers() {
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editCloseHandler);
+    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formDeleteClickHandler);
     this.element.querySelector('.event__type-group').addEventListener('change', this.#eventTypeHandler);
     this.element.querySelector('.event__field-group').addEventListener('change', this.#eventDestinationHandler);
     this.#setDatepickerStart();
@@ -185,6 +188,7 @@ export default class EditPointFormView extends AbstractStatefulView {
     this.updateElement({
       type : newType,
       offerByTypes : newOfferByTypes,
+      offers:[]
     });
   };
 
@@ -202,21 +206,34 @@ export default class EditPointFormView extends AbstractStatefulView {
     this.#handleFormSubmit(EditPointFormView.parseStateToPoint(this._state));
   };
 
+  #formDeleteClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleDeleteClick(EditPointFormView.parseStateToPoint(this._state));
+  };
+
   #editCloseHandler = () => {
     this.#handleEditCloseClick();
   };
 
   #dateStartChangeHandler = ([userDate]) => {
-    this.updateElement({
-      dateFrom: userDate,
-    });
+    this._state.dateFrom = userDate;
+    this._setState(this._state.dateFrom);
   };
 
   #dateEndChangeHandler = ([userDate]) => {
-    this.updateElement({
-      dateTo: userDate,
-    });
+    this._state.dateTo = userDate;
+    this._setState(this._state.dateTo);
   };
+
+  // #dateStartChangeHandler = ([userDate]) => {
+  //   this._state.dateFrom = userDate;
+  //   this.updateElement();
+  // };
+
+  // #dateEndChangeHandler = ([userDate]) => {
+  //   this._state.dateTo = userDate;
+  //   this.updateElement();
+  // };
 
   #setDatepickerStart() {
     this.#datepickerStart = flatpickr(
@@ -224,8 +241,6 @@ export default class EditPointFormView extends AbstractStatefulView {
       {
         dateFormat: 'd/m/y H:i',
         enableTime: true,
-        // eslint-disable-next-line camelcase
-        time_24hr: true,
         defaultDate: this._state.dateFrom,
         onChange: this.#dateStartChangeHandler,
       }
@@ -238,8 +253,6 @@ export default class EditPointFormView extends AbstractStatefulView {
       {
         dateFormat: 'd/m/y H:i',
         enableTime: true,
-        // eslint-disable-next-line camelcase
-        time_24hr: true,
         defaultDate: this._state.dateTo,
         onChange: this.#dateEndChangeHandler,
       }

@@ -20,11 +20,18 @@ const getRandomArrayElement = (items) => items[Math.floor(Math.random() * items.
 
 const getRandom = (items) => items[Math.floor(Math.random() * items.length)];
 
-
-const updateItem = (items, update) => items.map((item) => item.id === update.id ? update : item);
-
 const sortPointDay = (pointA, pointB) => dayjs(pointA.dateFrom).diff(dayjs(pointB.dateFrom));
 
 const sortPointPrice = (pointA, pointB) => pointB.basePrice - pointA.basePrice;
 
-export {getRandomArrayElement, getRandom, fullDateFrom, fullDateTo, dateTimeFrom, dateTimeTo, dayDate, machineDayDate, machineDateTimeFrom, machineDateTimeTo, updateItem, sortPointDay, sortPointPrice};
+const filterPointFuture = (point) => {
+  const dateNow = Date.now();
+  const currentDate = new Date(point.dateTo);
+  if (dateNow <= currentDate.getTime()) {
+    console.log('Будущая дата', point)
+    return point;
+  }
+  console.log('дата не подошла')
+};
+
+export {getRandomArrayElement, getRandom, fullDateFrom, fullDateTo, dateTimeFrom, dateTimeTo, dayDate, machineDayDate, machineDateTimeFrom, machineDateTimeTo, sortPointDay, sortPointPrice, filterPointFuture};

@@ -5,21 +5,21 @@ const offersByTypes = [
       {
         id: 1,
         title: 'Upgrade to a business class',
-        price: 120
+        price: 300
       },
       {
         id: 2,
-        title: 'Add luggage',
-        price: 30
+        title: 'Additional passenger',
+        price: 50
       },
       {
         id: 3,
-        title: 'Switch to comfort class',
-        price: 100
+        title: 'Select Radio',
+        price: 10
       },
       {
         id: 4,
-        title: 'Choose seats',
+        title: 'Open a window',
         price: 5
       }
     ]
@@ -29,13 +29,13 @@ const offersByTypes = [
     offers: [
       {
         id: 1,
-        title: 'Upgrade to a business class',
-        price: 120
+        title: 'Take an extra seat',
+        price: 80
       },
       {
         id: 2,
         title: 'Add luggage',
-        price: 30
+        price: 130
       },
       {
         id: 3,
@@ -45,7 +45,7 @@ const offersByTypes = [
       {
         id: 4,
         title: 'Choose seats',
-        price: 5
+        price: 40
       },
     ]
   },
@@ -54,23 +54,23 @@ const offersByTypes = [
     offers: [
       {
         id: 1,
-        title: 'Upgrade to a business class',
+        title: 'Change the compartment',
         price: 120
       },
       {
         id: 2,
-        title: 'Add luggage',
+        title: 'Order lunch',
         price: 30
       },
       {
         id: 3,
-        title: 'Switch to comfort class',
-        price: 100
+        title: 'Pull the stopcock',
+        price: 1000
       },
       {
         id: 4,
-        title: 'Choose seats',
-        price: 5
+        title: 'Choose a shelf',
+        price: 150
       }
     ]
   },
@@ -79,23 +79,23 @@ const offersByTypes = [
     offers: [
       {
         id: 1,
-        title: 'Upgrade to a business class',
+        title: 'Choose a boat',
         price: 120
       },
       {
         id: 2,
-        title: 'Add luggage',
+        title: 'Beep',
         price: 30
       },
       {
         id: 3,
-        title: 'Switch to comfort class',
+        title: 'Turn the wheel',
         price: 100
       },
       {
         id: 4,
-        title: 'Choose seats',
-        price: 5
+        title: 'Dance with the captain',
+        price: 15
       },
     ]
   },
@@ -104,17 +104,17 @@ const offersByTypes = [
     offers: [
       {
         id: 1,
-        title: 'Upgrade to a business class',
+        title: 'Choose a car',
         price: 120
       },
       {
         id: 2,
-        title: 'Add luggage',
+        title: 'Choose a color',
         price: 30
       },
       {
         id: 3,
-        title: 'Switch to comfort class',
+        title: 'Choose a travel companion',
         price: 100
       }
     ]
@@ -125,7 +125,7 @@ const offersByTypes = [
       {
         id: 1,
         title: 'Upgrade to a business class',
-        price: 120
+        price: 250
       },
       {
         id: 2,
@@ -134,13 +134,13 @@ const offersByTypes = [
       },
       {
         id: 3,
-        title: 'Switch to comfort class',
-        price: 100
+        title: 'Jump with a parachute',
+        price: 800
       },
       {
         id: 4,
         title: 'Choose seats',
-        price: 5
+        price: 50
       },
     ]
   },
@@ -174,23 +174,23 @@ const offersByTypes = [
     offers: [
       {
         id: 1,
-        title: 'Upgrade to a business class',
-        price: 120
+        title: 'Order a map of attractions',
+        price: 20
       },
       {
         id: 2,
-        title: 'Add luggage',
-        price: 30
+        title: 'Order an audio guide',
+        price: 35
       },
       {
         id: 3,
-        title: 'Switch to comfort class',
-        price: 100
+        title: 'Book a tour',
+        price: 75
       },
       {
         id: 4,
         title: 'Travel by train',
-        price: 40
+        price: 140
       }
     ]
   },
@@ -199,12 +199,12 @@ const offersByTypes = [
     offers: [
       {
         id: 1,
-        title: 'Upgrade to a business class',
-        price: 120
+        title: 'Order a dish from the chef',
+        price: 520
       },
       {
         id: 2,
-        title: 'Switch to comfort class',
+        title: 'Order a business lunch',
         price: 100
       },
       {
@@ -215,7 +215,7 @@ const offersByTypes = [
       {
         id: 4,
         title: 'Choose seats',
-        price: 5
+        price: 55
       }
     ]
   }
