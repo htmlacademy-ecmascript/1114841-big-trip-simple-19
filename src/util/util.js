@@ -28,10 +28,10 @@ const filterPointFuture = (point) => {
   const dateNow = Date.now();
   const currentDate = new Date(point.dateTo);
   if (dateNow <= currentDate.getTime()) {
-    console.log('Будущая дата', point)
+    // console.log('Будущая дата', point);
     return point;
   }
-  console.log('дата не подошла')
+  // console.log('дата не подошла');
 };
 
 export {getRandomArrayElement, getRandom, fullDateFrom, fullDateTo, dateTimeFrom, dateTimeTo, dayDate, machineDayDate, machineDateTimeFrom, machineDateTimeTo, sortPointDay, sortPointPrice, filterPointFuture};
