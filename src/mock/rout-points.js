@@ -49,7 +49,7 @@ const routPoints = [
   },
   {
     basePrice: 2500,
-    dateFrom: '2023-07-22T21:15:56.845Z',
+    dateFrom: '2019-07-22T21:15:56.845Z',
     dateTo: '2023-07-23T12:30:13.375Z',
     destination: 3,
     offers: [1, 3],

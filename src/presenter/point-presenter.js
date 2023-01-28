@@ -9,7 +9,7 @@ const Mode = {
 };
 
 export default class PointPresenter {
-  #container = null;
+  #listContainer = null;
   #handleDataChange = null;
   #handleModeChange = null;
 
@@ -20,8 +20,8 @@ export default class PointPresenter {
   #point = null;
   #mode = Mode.DEFAULT;
 
-  constructor({container, onDataChange, onModeChange}) {
-    this.#container = container;
+  constructor({listContainer, onDataChange, onModeChange}) {
+    this.#listContainer = listContainer;
     this.#handleDataChange = onDataChange;
     this.#handleModeChange = onModeChange;
   }
@@ -46,7 +46,7 @@ export default class PointPresenter {
     });
 
     if (prevPointComponent === null || prevPointEditComponent === null) {
-      render(this.#pointComponent, this.#container, RenderPosition.BEFOREEND);
+      render(this.#pointComponent, this.#listContainer, RenderPosition.BEFOREEND);
       return;
     }
 

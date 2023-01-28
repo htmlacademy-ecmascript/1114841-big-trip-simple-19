@@ -1,6 +1,8 @@
-import AbstractView from '../framework/view/abstract-view.js';
+import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { fullDateFrom } from '../util/util.js';
 import { fullDateTo } from '../util/util.js';
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
 
 const BLANK_POINT = {
   basePrice: 5000,
@@ -21,8 +23,288 @@ const BLANK_POINT = {
       }
     ]
   },
-  id: 6,
+  destinations: [
+    {
+      id: 1,
+      description: 'Chamonix, is a beautiful city, a true asian pearl, with crowded streets.',
+      name: 'Chamonix',
+      pictures: [
+        {
+          src: 'https://loremflickr.com/248/152?random=1',
+          description: 'Chamonix parliament building'
+        },
+        {
+          src: 'https://loremflickr.com/248/152?random=2',
+          description: 'Chamonix parliament building'
+        },
+        {
+          src: 'https://loremflickr.com/248/152?random=3',
+          description: 'Chamonix parliament building'
+        }
+      ]
+    },
+    {
+      id: 2,
+      description: 'Amsterdam. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      name: 'Amsterdam',
+      pictures: [
+        {
+          src: 'https://loremflickr.com/248/152?random=11',
+          description: 'Chamonix parliament building'
+        },
+        {
+          src: 'https://loremflickr.com/248/152?random=12',
+          description: 'Chamonix parliament building'
+        },
+        {
+          src: 'https://loremflickr.com/248/152?random=13',
+          description: 'Chamonix parliament building'
+        },
+        {
+          src: 'https://loremflickr.com/248/152?random=14',
+          description: 'Chamonix parliament building'
+        }
+      ]
+    },
+    {
+      id: 3,
+      description: 'Geneva. Cras aliquet varius magna, non porta ligula feugiat eget.',
+      name: 'Geneva',
+      pictures: [
+        {
+          src: 'https://loremflickr.com/248/152?random=21',
+          description: 'Chamonix parliament building'
+        },
+        {
+          src: 'https://loremflickr.com/248/152?random=22',
+          description: 'Chamonix parliament building'
+        }
+      ]
+    }
+  ],
   offers: [1, 3],
+  offersByTypes: [
+    {
+      type: 'taxi',
+      offers: [
+        {
+          id: 1,
+          title: 'Upgrade to a business class',
+          price: 300
+        },
+        {
+          id: 2,
+          title: 'Additional passenger',
+          price: 50
+        },
+        {
+          id: 3,
+          title: 'Select Radio',
+          price: 10
+        },
+        {
+          id: 4,
+          title: 'Open a window',
+          price: 5
+        }
+      ]
+    },
+    {
+      type: 'bus',
+      offers: [
+        {
+          id: 1,
+          title: 'Take an extra seat',
+          price: 80
+        },
+        {
+          id: 2,
+          title: 'Add luggage',
+          price: 130
+        },
+        {
+          id: 3,
+          title: 'Switch to comfort class',
+          price: 100
+        },
+        {
+          id: 4,
+          title: 'Choose seats',
+          price: 40
+        },
+      ]
+    },
+    {
+      type: 'train',
+      offers: [
+        {
+          id: 1,
+          title: 'Change the compartment',
+          price: 120
+        },
+        {
+          id: 2,
+          title: 'Order lunch',
+          price: 30
+        },
+        {
+          id: 3,
+          title: 'Pull the stopcock',
+          price: 1000
+        },
+        {
+          id: 4,
+          title: 'Choose a shelf',
+          price: 150
+        }
+      ]
+    },
+    {
+      type: 'ship',
+      offers: [
+        {
+          id: 1,
+          title: 'Choose a boat',
+          price: 120
+        },
+        {
+          id: 2,
+          title: 'Beep',
+          price: 30
+        },
+        {
+          id: 3,
+          title: 'Turn the wheel',
+          price: 100
+        },
+        {
+          id: 4,
+          title: 'Dance with the captain',
+          price: 15
+        },
+      ]
+    },
+    {
+      type: 'drive',
+      offers: [
+        {
+          id: 1,
+          title: 'Choose a car',
+          price: 120
+        },
+        {
+          id: 2,
+          title: 'Choose a color',
+          price: 30
+        },
+        {
+          id: 3,
+          title: 'Choose a travel companion',
+          price: 100
+        }
+      ]
+    },
+    {
+      type: 'flight',
+      offers: [
+        {
+          id: 1,
+          title: 'Upgrade to a business class',
+          price: 250
+        },
+        {
+          id: 2,
+          title: 'Add luggage',
+          price: 30
+        },
+        {
+          id: 3,
+          title: 'Jump with a parachute',
+          price: 800
+        },
+        {
+          id: 4,
+          title: 'Choose seats',
+          price: 50
+        },
+      ]
+    },
+    {
+      type: 'check-in',
+      offers: [
+        {
+          id: 1,
+          title: 'Upgrade to a business class',
+          price: 120
+        },
+        {
+          id: 2,
+          title: 'Add luggage',
+          price: 30
+        },
+        {
+          id: 3,
+          title: 'Switch to comfort class',
+          price: 100
+        },
+        {
+          id: 4,
+          title: 'Choose seats',
+          price: 5
+        }
+      ]
+    },
+    {
+      type: 'sightseeing',
+      offers: [
+        {
+          id: 1,
+          title: 'Order a map of attractions',
+          price: 20
+        },
+        {
+          id: 2,
+          title: 'Order an audio guide',
+          price: 35
+        },
+        {
+          id: 3,
+          title: 'Book a tour',
+          price: 75
+        },
+        {
+          id: 4,
+          title: 'Travel by train',
+          price: 140
+        }
+      ]
+    },
+    {
+      type: 'restaurant',
+      offers: [
+        {
+          id: 1,
+          title: 'Order a dish from the chef',
+          price: 520
+        },
+        {
+          id: 2,
+          title: 'Order a business lunch',
+          price: 100
+        },
+        {
+          id: 3,
+          title: 'Add meal',
+          price: 15
+        },
+        {
+          id: 4,
+          title: 'Choose seats',
+          price: 55
+        }
+      ]
+    }
+  ],
   type: 'flight'
 };
 
@@ -63,7 +345,9 @@ const createEventTypeItemTemplate = (offersByTypes, type, id) =>
 
 
 const createNewPointFormTemplate = (point) => {
+
   const { basePrice, dateFrom, dateTo, destination, type, offers, offersByTypes, destinations, id } = point;
+
   const pointDateTo = fullDateTo(dateTo);
   const pointDateFrom = fullDateFrom(dateFrom);
   const pointTypeOffers = offersByTypes.find((offer) => offer.type === point.type);
@@ -77,7 +361,7 @@ const createNewPointFormTemplate = (point) => {
         <form class="event event--edit" action="#" method="post">
           <header class="event__header">
             <div class="event__type-wrapper">
-              <label class="event__type  event__type-btn" for="event-type-toggle-1">
+              <label class="event__type  event__type-btn" for="event-type-toggle-${id}">
                 <span class="visually-hidden">Choose event type</span>
                 <img class="event__type-icon" width="17" height="17" src="img/icons/${type}.png" alt="Event type icon">
               </label>
@@ -147,16 +431,136 @@ const createNewPointFormTemplate = (point) => {
   );
 };
 
-export default class NewPointFormView extends AbstractView {
+export default class NewPointFormView extends AbstractStatefulView {
   #point = null;
+  #handleFormSubmit = null;
+  #handleEditCloseClick = null;
+  #handleDeleteClick = null;
+  #datepickerStart = null;
+  #datepickerEnd = null;
 
-  constructor({point = BLANK_POINT}) {
+  constructor({point = BLANK_POINT, onFormSubmit, onDeleteClick}) {
     super();
-    this.#point = point;
+    // this.#point = point;
+    this._setState(NewPointFormView.parsePointToState(point));
+    this.#handleFormSubmit = onFormSubmit;
+    this.#handleDeleteClick = onDeleteClick;
+
+    this._restoreHandlers();
   }
 
   get template() {
-    return createNewPointFormTemplate(this.#point);
+    return createNewPointFormTemplate(this._state);
+  }
+
+  removeElement() {
+    super.removeElement();
+
+    if (this.#datepickerStart) {
+      this.#datepickerStart.destroy();
+      this.#datepickerStart = null;
+    }
+
+    if (this.#datepickerEnd) {
+      this.#datepickerEnd.destroy();
+      this.#datepickerEnd = null;
+    }
+  }
+
+  // reset(point) {
+  //   this.updateElement(
+  //     EditPointFormView.parsePointToState(point)
+  //   );
+  // }
+
+  _restoreHandlers() {
+    this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
+    // this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editCloseHandler);
+    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formDeleteClickHandler);
+    this.element.querySelector('.event__type-group').addEventListener('change', this.#eventTypeHandler);
+    this.element.querySelector('.event__field-group').addEventListener('change', this.#eventDestinationHandler);
+    this.#setDatepickerStart();
+    this.#setDatepickerEnd();
+  }
+
+  #eventTypeHandler = (evt) => {
+    const newType = evt.target.value;
+    const newOfferByTypes = this._state.offersByTypes.find((offer) => offer.type === newType);
+
+    this.updateElement({
+      type : newType,
+      offerByTypes : newOfferByTypes,
+      offers:[]
+    });
+  };
+
+  #eventDestinationHandler = (evt) => {
+    const newName = evt.target.value;
+    const newDestination = this._state.destinations.find((direction) => direction.name === newName);
+    if (newDestination) {
+      this.updateElement({
+        destination : newDestination,
+      });
+    }
+  };
+
+  #formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleFormSubmit(NewPointFormView.parseStateToPoint(this._state));
+  };
+
+  #formDeleteClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleDeleteClick(NewPointFormView.parseStateToPoint(this._state));
+  };
+
+  // #editCloseHandler = () => {
+  //   this.#handleEditCloseClick();
+  // };
+
+  #dateStartChangeHandler = ([userDate]) => {
+    this._state.dateFrom = userDate;
+    this._setState(this._state.dateFrom);
+  };
+
+  #dateEndChangeHandler = ([userDate]) => {
+    this._state.dateTo = userDate;
+    this._setState(this._state.dateTo);
+  };
+
+  #setDatepickerStart() {
+    this.#datepickerStart = flatpickr(
+      this.element.querySelector('[name=event-start-time]'),
+      {
+        dateFormat: 'd/m/y H:i',
+        enableTime: true,
+        defaultDate: this._state.dateFrom,
+        onChange: this.#dateStartChangeHandler,
+      }
+    );
+  }
+
+  #setDatepickerEnd() {
+    this.#datepickerEnd = flatpickr(
+      this.element.querySelector('[name=event-end-time]'),
+      {
+        dateFormat: 'd/m/y H:i',
+        enableTime: true,
+        defaultDate: this._state.dateTo,
+        onChange: this.#dateEndChangeHandler,
+      }
+    );
+  }
+
+  static parsePointToState(point) {
+    return {...point,
+    };
+  }
+
+  static parseStateToPoint(state) {
+    const point = {...state
+    };
+    return point;
   }
 }
 

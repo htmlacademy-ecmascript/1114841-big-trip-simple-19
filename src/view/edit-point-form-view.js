@@ -30,7 +30,6 @@ const createPicturesTemplate = (pictures) =>
   ).join('');
 
 const createEventTypeItemTemplate = (offersByTypes, type, id) =>
-
   offersByTypes.map((offer) => {
     const checkedType = offer.type.includes(type) ? 'checked' : '';
     return (
@@ -195,10 +194,11 @@ export default class EditPointFormView extends AbstractStatefulView {
   #eventDestinationHandler = (evt) => {
     const newName = evt.target.value;
     const newDestination = this._state.destinations.find((direction) => direction.name === newName);
-
-    this.updateElement({
-      destination : newDestination,
-    });
+    if (newDestination) {
+      this.updateElement({
+        destination : newDestination,
+      });
+    }
   };
 
   #formSubmitHandler = (evt) => {
@@ -224,16 +224,6 @@ export default class EditPointFormView extends AbstractStatefulView {
     this._state.dateTo = userDate;
     this._setState(this._state.dateTo);
   };
-
-  // #dateStartChangeHandler = ([userDate]) => {
-  //   this._state.dateFrom = userDate;
-  //   this.updateElement();
-  // };
-
-  // #dateEndChangeHandler = ([userDate]) => {
-  //   this._state.dateTo = userDate;
-  //   this.updateElement();
-  // };
 
   #setDatepickerStart() {
     this.#datepickerStart = flatpickr(
