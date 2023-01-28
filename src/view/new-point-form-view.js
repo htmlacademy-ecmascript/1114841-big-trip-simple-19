@@ -1,6 +1,5 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
-import { fullDateFrom } from '../util/util.js';
-import { fullDateTo } from '../util/util.js';
+import { fullDateFrom, fullDateTo, firstLetterUp } from '../util/util.js';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
@@ -339,7 +338,7 @@ const createEventTypeItemTemplate = (offersByTypes, type, id) =>
     return (
       `<div class="event__type-item">
       <input id="event-type-${offer.type}-${id}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${offer.type}" ${checkedType}>
-      <label class="event__type-label  event__type-label--${offer.type}" for="event-type-${offer.type}-${id}">${offer.type}</label>
+      <label class="event__type-label  event__type-label--${offer.type}" for="event-type-${offer.type}-${id}">${firstLetterUp(offer.type)}</label>
     </div>`);
   }).join('');
 
