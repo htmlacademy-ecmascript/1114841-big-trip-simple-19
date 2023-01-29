@@ -172,7 +172,7 @@ export default class ListPresenter {
     if (pointCount === 0) {
       this.#renderNoPointComponent();
     }
-    // render (new NewPointFormView({point: this.#listPoints[0]}), this.#component.element, RenderPosition.BEFOREEND);
+
     for (let i = 0; i < pointCount; i++) {
       this.#renderPoint(points[i]);
     }
