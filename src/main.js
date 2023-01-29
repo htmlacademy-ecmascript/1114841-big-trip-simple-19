@@ -19,13 +19,11 @@ function clickHandler() {
 }
 
 function handleNewPointFormClose() {
-  // newPointButtonElement.element.disabled = false;
   newPointButtonElement.disabled = false;
 }
 
 function handleNewTaskButtonClick() {
   listPresenter.createPoint();
-  // newPointButtonElement.element.disabled = true;
   newPointButtonElement.disabled = true;
 }
 

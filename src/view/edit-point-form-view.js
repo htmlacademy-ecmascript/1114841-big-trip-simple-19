@@ -176,18 +176,34 @@ export default class EditPointFormView extends AbstractStatefulView {
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editCloseHandler);
     this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formDeleteClickHandler);
     this.element.querySelector('.event__type-group').addEventListener('change', this.#eventTypeHandler);
-    this.element.querySelector('.event__field-group').addEventListener('change', this.#eventDestinationHandler);
+    this.element.querySelector('.event__field-group--destination').addEventListener('change', this.#eventDestinationHandler);
+    this.element.querySelector('.event__field-group--price').addEventListener('change', this.#eventPriceHandler);
     this.#setDatepickerStart();
     this.#setDatepickerEnd();
   }
+
+  #eventOfferSelectorHandler = () => {
+    const inputs = this.element.querySelector('.event__available-offers').querySelectorAll('input');
+    const newOffers = [];
+    const newInputs = Array.prototype.slice.call(inputs);
+
+
+    for ( const input of newInputs) {
+      if (input.checked) {
+        newOffers.push(newInputs.indexOf(input) + 1);
+      }
+    }
+    this._state.offers = newOffers;
+    this._setState(this._state.offers);
+  };
 
   #eventTypeHandler = (evt) => {
     const newType = evt.target.value;
     const newOfferByTypes = this._state.offersByTypes.find((offer) => offer.type === newType);
 
     this.updateElement({
-      type : newType,
-      offerByTypes : newOfferByTypes,
+      type: newType,
+      offerByTypes: newOfferByTypes,
       offers:[]
     });
   };
@@ -198,12 +214,25 @@ export default class EditPointFormView extends AbstractStatefulView {
     if (newDestination) {
       this.updateElement({
         destination : newDestination,
+        offers:[]
       });
+    }
+  };
+
+  #eventPriceHandler = (evt) => {
+    const newPrice = evt.target.value;
+    if (newPrice) {
+      this._state.basePrice = newPrice;
+      this._setState(this._state.basePrice);
+      // this.updateElement({
+      //   basePrice: newPrice,
+      // });
     }
   };
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
+    this.#eventOfferSelectorHandler();
     this.#handleFormSubmit(EditPointFormView.parseStateToPoint(this._state));
   };
 

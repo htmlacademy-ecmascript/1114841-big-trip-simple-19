@@ -81,7 +81,7 @@ const BLANK_POINT = {
       ]
     }
   ],
-  offers: [1, 3],
+  offers: [],
   offersByTypes: [
     {
       type: 'taxi',
@@ -431,16 +431,13 @@ const createNewPointFormTemplate = (point) => {
 };
 
 export default class NewPointFormView extends AbstractStatefulView {
-  #point = null;
   #handleFormSubmit = null;
-  #handleEditCloseClick = null;
   #handleDeleteClick = null;
   #datepickerStart = null;
   #datepickerEnd = null;
 
   constructor({point = BLANK_POINT, onFormSubmit, onDeleteClick}) {
     super();
-    // this.#point = point;
     this._setState(NewPointFormView.parsePointToState(point));
     this.#handleFormSubmit = onFormSubmit;
     this.#handleDeleteClick = onDeleteClick;
@@ -466,21 +463,31 @@ export default class NewPointFormView extends AbstractStatefulView {
     }
   }
 
-  // reset(point) {
-  //   this.updateElement(
-  //     EditPointFormView.parsePointToState(point)
-  //   );
-  // }
-
   _restoreHandlers() {
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
-    // this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editCloseHandler);
     this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formDeleteClickHandler);
     this.element.querySelector('.event__type-group').addEventListener('change', this.#eventTypeHandler);
-    this.element.querySelector('.event__field-group').addEventListener('change', this.#eventDestinationHandler);
+    this.element.querySelector('.event__field-group--destination').addEventListener('change', this.#eventDestinationHandler);
+    this.element.querySelector('.event__field-group--price').addEventListener('change', this.#eventPriceHandler);
     this.#setDatepickerStart();
     this.#setDatepickerEnd();
   }
+
+  #eventOfferSelectorHandler = () => {
+    const inputs = this.element.querySelector('.event__available-offers').querySelectorAll('input');
+    const newOffers = [];
+    const newInputs = Array.prototype.slice.call(inputs);
+
+
+    for ( const input of newInputs) {
+      if (input.checked) {
+        newOffers.push(newInputs.indexOf(input) + 1);
+      }
+    }
+    this._state.offers = newOffers;
+    this._setState(this._state.offers);
+  };
+
 
   #eventTypeHandler = (evt) => {
     const newType = evt.target.value;
@@ -503,8 +510,20 @@ export default class NewPointFormView extends AbstractStatefulView {
     }
   };
 
+  #eventPriceHandler = (evt) => {
+    const newPrice = evt.target.value;
+    if (newPrice) {
+      this._state.basePrice = newPrice;
+      this._setState(this._state.basePrice);
+      // this.updateElement({
+      //   basePrice: newPrice,
+      // });
+    }
+  };
+
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
+    this.#eventOfferSelectorHandler();
     this.#handleFormSubmit(NewPointFormView.parseStateToPoint(this._state));
   };
 
@@ -512,10 +531,6 @@ export default class NewPointFormView extends AbstractStatefulView {
     evt.preventDefault();
     this.#handleDeleteClick(NewPointFormView.parseStateToPoint(this._state));
   };
-
-  // #editCloseHandler = () => {
-  //   this.#handleEditCloseClick();
-  // };
 
   #dateStartChangeHandler = ([userDate]) => {
     this._state.dateFrom = userDate;
