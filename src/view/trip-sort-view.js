@@ -31,12 +31,10 @@ const createTripSortTemplate = () =>
 
 export default class TripSortView extends AbstractView {
   #handleSortTypeChange = null;
-  #currentSortType = null;
 
   constructor({onSortTypeChange}) {
     super();
     this.#handleSortTypeChange = onSortTypeChange;
-    // this.#currentSortType = currentSortType;
 
     this.element.addEventListener('click', this.#sortTypeChangeHandler);
   }
@@ -49,11 +47,6 @@ export default class TripSortView extends AbstractView {
     if (evt.target.tagName !== 'LABEL') {
       return;
     }
-
-    // if (this.#currentSortType !== evt.target.dataset.sortType) {
-    //   this.#currentSortType = evt.target.dataset.sortType;
-    //   console.log('this.#currentSortType', this.#currentSortType)
-    // }
 
     this.#handleSortTypeChange(evt.target.dataset.sortType);
   };

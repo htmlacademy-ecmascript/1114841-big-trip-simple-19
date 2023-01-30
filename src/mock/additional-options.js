@@ -1,28 +1,7 @@
 const offersByTypes = [
   {
     type: 'taxi',
-    offers: [
-      {
-        id: 1,
-        title: 'Upgrade to a business class',
-        price: 300
-      },
-      {
-        id: 2,
-        title: 'Additional passenger',
-        price: 50
-      },
-      {
-        id: 3,
-        title: 'Select Radio',
-        price: 10
-      },
-      {
-        id: 4,
-        title: 'Open a window',
-        price: 5
-      }
-    ]
+    offers: []
   },
   {
     type: 'bus',

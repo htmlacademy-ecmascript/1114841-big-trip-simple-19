@@ -5,7 +5,7 @@ import { offersByTypes } from '../mock/additional-options.js';
 import { destinations } from '../mock/destinations.js';
 import { nanoid } from 'nanoid';
 
-const POINT_COUNT = 5;
+const POINT_COUNT = 1;
 
 const getRandomPoint = () => ({
   id:nanoid(),
@@ -18,20 +18,16 @@ export default class PointsModel extends Observable {
 
   get points() {
     return this.#points.map((point) => {
+      const offerByTypes = this.#allOffers.find((offer) => offer.type === point.type);
+      const destination = this.#destinations.find((direction) => direction.id === point.destination);
 
-      if (point.destination.id) {
-        return point;
-      } else {
-        const offerByTypes = this.#allOffers.find((offer) => offer.type === point.type);
-        const destination = this.#destinations.find((direction) => direction.id === point.destination);
-
-        return {
-          ...point,
-          destination,
-          offerByTypes,
-          offersByTypes,
-          destinations
-        };}
+      return {
+        ...point,
+        destination,
+        offerByTypes,
+        offersByTypes,
+        destinations
+      };
     });
   }
 

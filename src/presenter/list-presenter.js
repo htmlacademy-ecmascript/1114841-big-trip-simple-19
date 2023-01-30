@@ -128,7 +128,6 @@ export default class ListPresenter {
 
   #renderSort() {
     this.#sortComponent = new TripSortView({
-      // currentSortType: this.#currentSortType,
       onSortTypeChange: this.#handleSortTypeChange
     });
     if (this.#pointsModel.points.every((point) => point === null)) {
@@ -145,10 +144,16 @@ export default class ListPresenter {
     render(this.#noPointComponent, this.#listComponent.element, RenderPosition.BEFOREBEGIN);
   }
 
+  #clearSort() {
+    remove(this.#sortComponent);
+  }
+
   #clearList({resetSortType = false, resetFilterType = false} = {}) {
+
     this.#newPointPresenter.destroy();
     this.#pointPresenters.forEach((presenter) => presenter.destroy());
     this.#pointPresenters.clear();
+
 
     if (this.#noPointComponent) {
       remove(this.#noPointComponent);
@@ -156,6 +161,8 @@ export default class ListPresenter {
 
     if (resetSortType) {
       this.#currentSortType = SortType.DAY;
+      this.#clearSort();
+      this.#renderSort();
     }
 
     if (resetFilterType) {
