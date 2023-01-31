@@ -1,5 +1,5 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
-import { fullDateFrom, fullDateTo, firstLetterUp } from '../util/util.js';
+import { fullDateFrom, fullDateTo, firstLetterUp, machineDateTimeFrom, machineDateTimeTo } from '../util/util.js';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
@@ -273,12 +273,14 @@ export default class EditPointFormView extends AbstractStatefulView {
   };
 
   #dateStartChangeHandler = ([userDate]) => {
-    this._state.dateFrom = userDate;
+    const newDate = machineDateTimeTo(userDate);
+    this._state.dateFrom = newDate;
     this._setState(this._state.dateFrom);
   };
 
   #dateEndChangeHandler = ([userDate]) => {
-    this._state.dateTo = userDate;
+    const newDate = machineDateTimeFrom(userDate);
+    this._state.dateFrom = newDate;
     this._setState(this._state.dateTo);
   };
 
@@ -312,6 +314,7 @@ export default class EditPointFormView extends AbstractStatefulView {
   }
 
   static parseStateToPoint(state) {
+    console.log(state)
     const point = {...state,
       destination: state.destination.id
     };
