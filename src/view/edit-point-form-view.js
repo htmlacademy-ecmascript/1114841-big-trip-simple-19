@@ -314,7 +314,6 @@ export default class EditPointFormView extends AbstractStatefulView {
   }
 
   static parseStateToPoint(state) {
-    console.log(state)
     const point = {...state,
       destination: state.destination.id
     };
