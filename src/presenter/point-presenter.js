@@ -1,7 +1,7 @@
 import { render, replace, remove, RenderPosition } from '../framework/render.js';
 import PointView from '../view/point-view.js';
-// import NewPointFormView from '../view/new-point-form-view.js';
 import EditPointFormView from '../view/edit-point-form-view.js';
+import { UserAction, UpdateType } from '../const.js';
 
 const Mode = {
   DEFAULT: 'DEFAULT',
@@ -9,7 +9,7 @@ const Mode = {
 };
 
 export default class PointPresenter {
-  #container = null;
+  #listContainer = null;
   #handleDataChange = null;
   #handleModeChange = null;
 
@@ -20,15 +20,14 @@ export default class PointPresenter {
   #point = null;
   #mode = Mode.DEFAULT;
 
-  constructor({container, onDataChange, onModeChange}) {
-    this.#container = container;
+  constructor({listContainer, onDataChange, onModeChange}) {
+    this.#listContainer = listContainer;
     this.#handleDataChange = onDataChange;
     this.#handleModeChange = onModeChange;
   }
 
   init(point) {
     this.#point = point;
-
     const prevPointComponent = this.#pointComponent;
     const prevPointEditComponent = this.#pointEditComponent;
 
@@ -41,11 +40,12 @@ export default class PointPresenter {
     this.#pointEditComponent = new EditPointFormView({
       point: this.#point,
       onFormSubmit: this.#handleFormSubmit,
-      onEditCloseClick: this.#handleFormClick
+      onEditCloseClick: this.#handleFormClick,
+      onDeleteClick: this.#handleDeleteClick,
     });
 
     if (prevPointComponent === null || prevPointEditComponent === null) {
-      render(this.#pointComponent, this.#container, RenderPosition.BEFOREEND);
+      render(this.#pointComponent, this.#listContainer, RenderPosition.BEFOREEND);
       return;
     }
 
@@ -103,8 +103,20 @@ export default class PointPresenter {
     this.#replaceFormToPoint();
   };
 
-  #handleFormSubmit = (point) => {
-    this.#handleDataChange(point);
+  #handleFormSubmit = (update) => {
+    this.#handleDataChange(
+      UserAction.UPDATE_POINT,
+      UpdateType.MINOR,
+      update,
+    );
     this.#replaceFormToPoint();
+  };
+
+  #handleDeleteClick = (point) => {
+    this.#handleDataChange(
+      UserAction.DELETE_POINT,
+      UpdateType.MINOR,
+      point,
+    );
   };
 }

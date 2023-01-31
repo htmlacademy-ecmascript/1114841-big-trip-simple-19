@@ -35,6 +35,7 @@ export default class TripSortView extends AbstractView {
   constructor({onSortTypeChange}) {
     super();
     this.#handleSortTypeChange = onSortTypeChange;
+
     this.element.addEventListener('click', this.#sortTypeChangeHandler);
   }
 
