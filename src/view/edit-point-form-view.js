@@ -247,14 +247,15 @@ export default class EditPointFormView extends AbstractStatefulView {
   };
 
   #eventPriceHandler = (evt) => {
+    const prevPrice = this._state.basePrice;
     const newPrice = evt.target.value;
     // const REGEX = /^[0-9]+$/;
     const REGEX = /^[\D0]+|\D/g;
-    if (newPrice) {
-      if(!REGEX.test(newPrice)) {
-        this._state.basePrice = newPrice;
-        this._setState(this._state.basePrice);
-      }
+    if(!REGEX.test(newPrice)) {
+      this._state.basePrice = newPrice;
+      this._setState(this._state.basePrice);
+    } else {
+      evt.target.value = prevPrice;
     }
   };
 
