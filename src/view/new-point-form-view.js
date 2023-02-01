@@ -489,8 +489,7 @@ export default class NewPointFormView extends AbstractStatefulView {
           offers.push(Number(input.dataset.offerId));
         }
       }
-      this._state.offers = offers;
-      this._setState(this._state.offers);
+      this._setState({offers: offers});
     }
   };
 
@@ -518,11 +517,9 @@ export default class NewPointFormView extends AbstractStatefulView {
   #eventPriceHandler = (evt) => {
     const prevPrice = this._state.basePrice;
     const newPrice = evt.target.value;
-    // const REGEX = /^[0-9]+$/;
     const REGEX = /^[\D0]+|\D/g;
     if(!REGEX.test(newPrice)) {
-      this._state.basePrice = newPrice;
-      this._setState(this._state.basePrice);
+      this._setState({basePrice: Number(newPrice)});
     } else {
       evt.target.value = prevPrice;
     }
@@ -539,13 +536,11 @@ export default class NewPointFormView extends AbstractStatefulView {
   };
 
   #dateStartChangeHandler = ([userDate]) => {
-    this._state.dateFrom = userDate;
-    this._setState(this._state.dateFrom);
+    this._setState({dateFrom: userDate});
   };
 
   #dateEndChangeHandler = ([userDate]) => {
-    this._state.dateTo = userDate;
-    this._setState(this._state.dateTo);
+    this._setState({dateTo: userDate});
   };
 
   #setDatepickerStart() {
@@ -586,5 +581,3 @@ export default class NewPointFormView extends AbstractStatefulView {
     return point;
   }
 }
-
-
