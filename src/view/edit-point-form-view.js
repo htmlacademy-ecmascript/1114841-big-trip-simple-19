@@ -1,5 +1,5 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
-import { fullDateFrom, fullDateTo, firstLetterUp, machineDateTimeFrom, machineDateTimeTo } from '../util/util.js';
+import { fullDateFrom, fullDateTo, firstLetterUp } from '../util/util.js';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
@@ -220,8 +220,7 @@ export default class EditPointFormView extends AbstractStatefulView {
           offers.push(Number(input.dataset.offerId));
         }
       }
-      this._state.offers = offers;
-      this._setState(this._state.offers);
+      this._setState({offers: offers});
     }
   };
 
@@ -247,14 +246,13 @@ export default class EditPointFormView extends AbstractStatefulView {
   };
 
   #eventPriceHandler = (evt) => {
+    const prevPrice = this._state.basePrice;
     const newPrice = evt.target.value;
-    // const REGEX = /^[0-9]+$/;
     const REGEX = /^[\D0]+|\D/g;
-    if (newPrice) {
-      if(!REGEX.test(newPrice)) {
-        this._state.basePrice = newPrice;
-        this._setState(this._state.basePrice);
-      }
+    if(!REGEX.test(newPrice)) {
+      this._setState({basePrice: Number(newPrice)});
+    } else {
+      evt.target.value = prevPrice;
     }
   };
 
@@ -273,15 +271,11 @@ export default class EditPointFormView extends AbstractStatefulView {
   };
 
   #dateStartChangeHandler = ([userDate]) => {
-    const newDate = machineDateTimeTo(userDate);
-    this._state.dateFrom = newDate;
-    this._setState(this._state.dateFrom);
+    this._setState({dateFrom: userDate});
   };
 
   #dateEndChangeHandler = ([userDate]) => {
-    const newDate = machineDateTimeFrom(userDate);
-    this._state.dateFrom = newDate;
-    this._setState(this._state.dateTo);
+    this._setState({dateTo: userDate});
   };
 
   #setDatepickerStart() {
@@ -289,8 +283,8 @@ export default class EditPointFormView extends AbstractStatefulView {
       this.element.querySelector('[name=event-start-time]'),
       {
         dateFormat: 'd/m/y H:i',
+        'time_24hr': true,
         enableTime: true,
-        defaultDate: this._state.dateFrom,
         onChange: this.#dateStartChangeHandler,
       }
     );
@@ -302,7 +296,8 @@ export default class EditPointFormView extends AbstractStatefulView {
       {
         dateFormat: 'd/m/y H:i',
         enableTime: true,
-        defaultDate: this._state.dateTo,
+        'time_24hr': true,
+        minDate: this._state.dateFrom,
         onChange: this.#dateEndChangeHandler,
       }
     );
