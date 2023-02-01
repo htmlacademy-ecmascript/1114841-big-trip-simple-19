@@ -73,4 +73,3 @@ const routPoints = [
   }
 ];
 
-export {routPoints};

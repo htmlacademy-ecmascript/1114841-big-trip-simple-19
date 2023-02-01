@@ -58,4 +58,3 @@ const destinations = [
   }
 ];
 
-export {destinations};

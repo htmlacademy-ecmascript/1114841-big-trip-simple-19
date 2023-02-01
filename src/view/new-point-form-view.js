@@ -554,22 +554,20 @@ export default class NewPointFormView extends AbstractStatefulView {
         dateFormat: 'd/m/y H:i',
         minDate: 'today',
         enableTime: true,
+        'time_24hr': true,
         onChange: this.#dateStartChangeHandler,
-        // onClose: this.#setDatepickerEnd(selectedDates),
-      //   onClose:function(selectedDates) {
-      //     this.#datepickerEnd.set('minDate', selectedDates[0]);
-      //   }
       }
     );
   }
 
-  #setDatepickerEnd(selectedDates) {
+  #setDatepickerEnd() {
     this.#datepickerEnd = flatpickr(
       this.element.querySelector('[name=event-end-time]'),
       {
         dateFormat: 'd/m/y H:i',
-        minDate: selectedDates,
+        minDate: this._state.dateFrom,
         enableTime: true,
+        'time_24hr': true,
         onChange: this.#dateEndChangeHandler,
       }
     );

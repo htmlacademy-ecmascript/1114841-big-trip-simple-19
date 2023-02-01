@@ -200,4 +200,3 @@ const offersByTypes = [
   }
 ];
 
-export {offersByTypes};

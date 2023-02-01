@@ -1,5 +1,5 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
-import { fullDateFrom, fullDateTo, firstLetterUp, machineDateTimeFrom, machineDateTimeTo } from '../util/util.js';
+import { fullDateFrom, fullDateTo, firstLetterUp } from '../util/util.js';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
@@ -273,14 +273,12 @@ export default class EditPointFormView extends AbstractStatefulView {
   };
 
   #dateStartChangeHandler = ([userDate]) => {
-    const newDate = machineDateTimeTo(userDate);
-    this._state.dateFrom = newDate;
+    this._state.dateFrom = userDate;
     this._setState(this._state.dateFrom);
   };
 
   #dateEndChangeHandler = ([userDate]) => {
-    const newDate = machineDateTimeFrom(userDate);
-    this._state.dateFrom = newDate;
+    this._state.dateTo = userDate;
     this._setState(this._state.dateTo);
   };
 
@@ -289,8 +287,9 @@ export default class EditPointFormView extends AbstractStatefulView {
       this.element.querySelector('[name=event-start-time]'),
       {
         dateFormat: 'd/m/y H:i',
+        minDate: 'today',
+        'time_24hr': true,
         enableTime: true,
-        defaultDate: this._state.dateFrom,
         onChange: this.#dateStartChangeHandler,
       }
     );
@@ -302,7 +301,8 @@ export default class EditPointFormView extends AbstractStatefulView {
       {
         dateFormat: 'd/m/y H:i',
         enableTime: true,
-        defaultDate: this._state.dateTo,
+        'time_24hr': true,
+        minDate: this._state.dateFrom,
         onChange: this.#dateEndChangeHandler,
       }
     );
@@ -314,6 +314,7 @@ export default class EditPointFormView extends AbstractStatefulView {
   }
 
   static parseStateToPoint(state) {
+    // console.log('state', state)
     const point = {...state,
       destination: state.destination.id
     };
