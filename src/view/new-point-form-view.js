@@ -56,7 +56,8 @@ const createEventTypeItemTemplate = (offersByTypes, type, id, isDisabled) =>
 
 
 const createNewPointFormTemplate = (point) => {
-  const { basePrice, dateFrom, dateTo, type, offers, offersByTypes, offerByTypes, destination, destinations, id, isDisabled, isSaving } = point;
+  const { basePrice, dateFrom, dateTo, type, offers, offersByTypes, offerByTypes, destination, destinations, isDisabled, isSaving } = point;
+  const id = 1;
   const pointDateTo = fullDateTo(dateTo);
   const pointDateFrom = fullDateFrom(dateFrom);
   const picturesTemplate = createPicturesTemplate(destination.pictures);
