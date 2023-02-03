@@ -3,298 +3,14 @@ import { fullDateFrom, fullDateTo, firstLetterUp } from '../util/util.js';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
-const BLANK_POINT = {
-  basePrice: 0,
-  dateFrom: '2019-07-10T22:55:56.845Z',
-  dateTo: '2019-07-11T11:22:13.375Z',
-  destination: {
-    id: 3,
-    description: 'Geneva. Cras aliquet varius magna, non porta ligula feugiat eget.',
-    name: 'Geneva',
-    pictures: [
-      {
-        src: 'https://loremflickr.com/248/152?random=21',
-        description: 'Chamonix parliament building'
-      },
-      {
-        src: 'https://loremflickr.com/248/152?random=22',
-        description: 'Chamonix parliament building'
-      }
-    ]
-  },
-  destinations: [
-    {
-      id: 1,
-      description: 'Chamonix, is a beautiful city, a true asian pearl, with crowded streets.',
-      name: 'Chamonix',
-      pictures: [
-        {
-          src: 'https://loremflickr.com/248/152?random=1',
-          description: 'Chamonix parliament building'
-        },
-        {
-          src: 'https://loremflickr.com/248/152?random=2',
-          description: 'Chamonix parliament building'
-        },
-        {
-          src: 'https://loremflickr.com/248/152?random=3',
-          description: 'Chamonix parliament building'
-        }
-      ]
-    },
-    {
-      id: 2,
-      description: 'Amsterdam. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      name: 'Amsterdam',
-      pictures: [
-        {
-          src: 'https://loremflickr.com/248/152?random=11',
-          description: 'Chamonix parliament building'
-        },
-        {
-          src: 'https://loremflickr.com/248/152?random=12',
-          description: 'Chamonix parliament building'
-        },
-        {
-          src: 'https://loremflickr.com/248/152?random=13',
-          description: 'Chamonix parliament building'
-        },
-        {
-          src: 'https://loremflickr.com/248/152?random=14',
-          description: 'Chamonix parliament building'
-        }
-      ]
-    },
-    {
-      id: 3,
-      description: 'Geneva. Cras aliquet varius magna, non porta ligula feugiat eget.',
-      name: 'Geneva',
-      pictures: [
-        {
-          src: 'https://loremflickr.com/248/152?random=21',
-          description: 'Chamonix parliament building'
-        },
-        {
-          src: 'https://loremflickr.com/248/152?random=22',
-          description: 'Chamonix parliament building'
-        }
-      ]
-    }
-  ],
-  offers: [],
-  offersByTypes: [
-    {
-      type: 'taxi',
-      offers: []
-    },
-    {
-      type: 'bus',
-      offers: [
-        {
-          id: 1,
-          title: 'Take an extra seat',
-          price: 80
-        },
-        {
-          id: 2,
-          title: 'Add luggage',
-          price: 130
-        },
-        {
-          id: 3,
-          title: 'Switch to comfort class',
-          price: 100
-        },
-        {
-          id: 4,
-          title: 'Choose seats',
-          price: 40
-        },
-      ]
-    },
-    {
-      type: 'train',
-      offers: [
-        {
-          id: 1,
-          title: 'Change the compartment',
-          price: 120
-        },
-        {
-          id: 2,
-          title: 'Order lunch',
-          price: 30
-        },
-        {
-          id: 3,
-          title: 'Pull the stopcock',
-          price: 1000
-        },
-        {
-          id: 4,
-          title: 'Choose a shelf',
-          price: 150
-        }
-      ]
-    },
-    {
-      type: 'ship',
-      offers: [
-        {
-          id: 1,
-          title: 'Choose a boat',
-          price: 120
-        },
-        {
-          id: 2,
-          title: 'Beep',
-          price: 30
-        },
-        {
-          id: 3,
-          title: 'Turn the wheel',
-          price: 100
-        },
-        {
-          id: 4,
-          title: 'Dance with the captain',
-          price: 15
-        },
-      ]
-    },
-    {
-      type: 'drive',
-      offers: [
-        {
-          id: 1,
-          title: 'Choose a car',
-          price: 120
-        },
-        {
-          id: 2,
-          title: 'Choose a color',
-          price: 30
-        },
-        {
-          id: 3,
-          title: 'Choose a travel companion',
-          price: 100
-        }
-      ]
-    },
-    {
-      type: 'flight',
-      offers: [
-        {
-          id: 1,
-          title: 'Upgrade to a business class',
-          price: 250
-        },
-        {
-          id: 2,
-          title: 'Add luggage',
-          price: 30
-        },
-        {
-          id: 3,
-          title: 'Jump with a parachute',
-          price: 800
-        },
-        {
-          id: 4,
-          title: 'Choose seats',
-          price: 50
-        },
-      ]
-    },
-    {
-      type: 'check-in',
-      offers: [
-        {
-          id: 1,
-          title: 'Upgrade to a business class',
-          price: 120
-        },
-        {
-          id: 2,
-          title: 'Add luggage',
-          price: 30
-        },
-        {
-          id: 3,
-          title: 'Switch to comfort class',
-          price: 100
-        },
-        {
-          id: 4,
-          title: 'Choose seats',
-          price: 5
-        }
-      ]
-    },
-    {
-      type: 'sightseeing',
-      offers: [
-        {
-          id: 1,
-          title: 'Order a map of attractions',
-          price: 20
-        },
-        {
-          id: 2,
-          title: 'Order an audio guide',
-          price: 35
-        },
-        {
-          id: 3,
-          title: 'Book a tour',
-          price: 75
-        },
-        {
-          id: 4,
-          title: 'Travel by train',
-          price: 140
-        }
-      ]
-    },
-    {
-      type: 'restaurant',
-      offers: [
-        {
-          id: 1,
-          title: 'Order a dish from the chef',
-          price: 520
-        },
-        {
-          id: 2,
-          title: 'Order a business lunch',
-          price: 100
-        },
-        {
-          id: 3,
-          title: 'Add meal',
-          price: 15
-        },
-        {
-          id: 4,
-          title: 'Choose seats',
-          price: 55
-        }
-      ]
-    }
-  ],
-  type: 'flight'
-};
-
-const createSectionOffersTemplate = (allOffers, offerByTypes) => {
-
-  const createAdditionOptionsTemplate = (offers, pointTypeOffers) =>
-    pointTypeOffers.offers.map((offer) => {
+const createSectionOffersTemplate = (type, offers, offerByTypes, isDisabled) => {
+  const createAdditionOptionsTemplate = () =>
+    offerByTypes.offers.map((offer) => {
       const checked = offers.includes(offer.id) ? 'checked' : '';
       return (
         ` <div class="event__offer-selector">
-                  <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.id}" type="checkbox" name="event-offer-luggage" data-offer-id="${offer.id}" ${checked} >
-                  <label class="event__offer-label" for="event-offer-${offer.id}">
+                  <input class="event__offer-checkbox  visually-hidden" id="event-offer-${type}-${offer.id}" type="checkbox" name="event-offer-${type}" data-offer-id="${offer.id}" ${checked} ${isDisabled ? 'disabled' : ''}>
+                  <label class="event__offer-label" for="event-offer-${type}-${offer.id}">
                     <span class="event__offer-title">${offer.title}</span>
                     &plus;&euro;&nbsp;
                     <span class="event__offer-price">${offer.price}</span>
@@ -302,7 +18,7 @@ const createSectionOffersTemplate = (allOffers, offerByTypes) => {
                 </div>`);
     }).join('');
 
-  const additionOptionsTemplate = createAdditionOptionsTemplate(allOffers, offerByTypes);
+  const additionOptionsTemplate = createAdditionOptionsTemplate(offers, offerByTypes);
 
   if (offerByTypes.offers.length !== 0) {
     return (
@@ -318,21 +34,6 @@ const createSectionOffersTemplate = (allOffers, offerByTypes) => {
   }
 };
 
-// const createAdditionOptionsTemplate = (offers, pointTypeOffers) =>
-
-//   pointTypeOffers.offers.map((offer) => {
-//     const checked = offers.includes(offer.id) ? 'checked' : '';
-//     return (
-//       ` <div class="event__offer-selector">
-//                   <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.id}" type="checkbox" name="event-offer-luggage" ${checked}>
-//                   <label class="event__offer-label" for="event-offer-${offer.id}">
-//                     <span class="event__offer-title">${offer.title}</span>
-//                     &plus;&euro;&nbsp;
-//                     <span class="event__offer-price">${offer.price}</span>
-//                   </label>
-//                 </div>`);
-//   }).join('');
-
 const createDestinationNameTemplate = (destinations) =>
   destinations.map((destination) =>
     ` <option value="${destination.name}"></option>`
@@ -343,27 +44,25 @@ const createPicturesTemplate = (pictures) =>
     ` <img class="event__photo" src="${picture.src}" alt="${picture.description}">`
   ).join('');
 
-const createEventTypeItemTemplate = (offersByTypes, type, id) =>
+const createEventTypeItemTemplate = (offersByTypes, type, id, isDisabled) =>
   offersByTypes.map((offer) => {
     const checkedType = offer.type.includes(type) ? 'checked' : '';
     return (
       `<div class="event__type-item">
-      <input id="event-type-${offer.type}-${id}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${offer.type}" ${checkedType}>
+      <input id="event-type-${offer.type}-${id}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${offer.type}" ${checkedType} ${isDisabled ? 'disabled' : ''}>
       <label class="event__type-label  event__type-label--${offer.type}" for="event-type-${offer.type}-${id}">${firstLetterUp(offer.type)}</label>
     </div>`);
   }).join('');
 
 
 const createNewPointFormTemplate = (point) => {
-
-  const { basePrice, dateFrom, dateTo, type, offers, offersByTypes, destination, destinations, id } = point;
+  const { basePrice, dateFrom, dateTo, type, offers, offersByTypes, offerByTypes, destination, destinations, id, isDisabled, isSaving, isDeleting } = point;
   const pointDateTo = fullDateTo(dateTo);
   const pointDateFrom = fullDateFrom(dateFrom);
-  const pointTypeOffers = offersByTypes.find((offer) => offer.type === point.type);
   const picturesTemplate = createPicturesTemplate(destination.pictures);
-  const eventTypeItemTemplate = createEventTypeItemTemplate(offersByTypes, type, id);
+  const eventTypeItemTemplate = createEventTypeItemTemplate(offersByTypes, type, id, isDisabled);
   const destinationNameTemplate = createDestinationNameTemplate(destinations);
-  const createSectionTemplate = createSectionOffersTemplate(offers, pointTypeOffers);
+  const createSectionTemplate = createSectionOffersTemplate(type, offers, offerByTypes, isDisabled);
 
   return (
     `<li class="trip-events__item">
@@ -390,7 +89,7 @@ const createNewPointFormTemplate = (point) => {
               <label class="event__label  event__type-output" for="event-destination-1">
                 ${type}
               </label>
-              <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-${id}">
+              <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-${id}" ${isDisabled ? 'disabled' : ''}>
               <datalist id="destination-list-${id}">
                 ${destinationNameTemplate}
               </datalist>
@@ -398,10 +97,10 @@ const createNewPointFormTemplate = (point) => {
 
             <div class="event__field-group  event__field-group--time">
               <label class="visually-hidden" for="event-start-time-1">From</label>
-              <input class="event__input  event__input--time" id="event-start-time-${id}" type="text" name="event-start-time" value="${pointDateFrom}">
+              <input class="event__input  event__input--time" id="event-start-time-${id}" type="text" name="event-start-time" value="${pointDateFrom}" ${isDisabled ? 'disabled' : ''}>
               &mdash;
               <label class="visually-hidden" for="event-end-time-1">To</label>
-              <input class="event__input  event__input--time" id="event-end-time-${id}" type="text" name="event-end-time" value="${pointDateTo}">
+              <input class="event__input  event__input--time" id="event-end-time-${id}" type="text" name="event-end-time" value="${pointDateTo}" ${isDisabled ? 'disabled' : ''}>
             </div>
 
             <div class="event__field-group  event__field-group--price">
@@ -409,11 +108,11 @@ const createNewPointFormTemplate = (point) => {
                 <span class="visually-hidden">Price</span>
                 &euro;
               </label>
-              <input class="event__input  event__input--price" id="event-price-${id}" type="text" name="event-price" value="${basePrice}">
+              <input class="event__input  event__input--price" id="event-price-${id}" type="text" name="event-price" value="${basePrice}" ${isDisabled ? 'disabled' : ''}>
             </div>
 
-            <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-            <button class="event__reset-btn" type="reset">Cancel</button>
+            <button class="event__save-btn  btn  btn--blue" type="submit" ${isDisabled ? 'disabled' : ''}>${isSaving ? 'Saving...' : 'Save'}</button>
+            <button class="event__reset-btn" type="reset"${isDisabled ? 'disabled' : ''}>Cancel</button>
           </header>
           <section class="event__details">
               ${createSectionTemplate}
@@ -439,7 +138,7 @@ export default class NewPointFormView extends AbstractStatefulView {
   #datepickerStart = null;
   #datepickerEnd = null;
 
-  constructor({point = BLANK_POINT, onFormSubmit, onDeleteClick}) {
+  constructor({point, onFormSubmit, onDeleteClick}) {
     super();
     this._setState(NewPointFormView.parsePointToState(point));
     this.#handleFormSubmit = onFormSubmit;
@@ -571,6 +270,9 @@ export default class NewPointFormView extends AbstractStatefulView {
 
   static parsePointToState(point) {
     return {...point,
+      isDisabled: false,
+      isSaving: false,
+      isDeleting: false,
     };
   }
 
@@ -578,6 +280,11 @@ export default class NewPointFormView extends AbstractStatefulView {
     const point = {...state,
       destination: state.destination.id
     };
+
+    delete point.isDisabled;
+    delete point.isSaving;
+    delete point.isDeleting;
+
     return point;
   }
 }
