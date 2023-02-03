@@ -247,9 +247,9 @@ export default class NewPointFormView extends AbstractStatefulView {
       this.element.querySelector('[name=event-start-time]'),
       {
         dateFormat: 'd/m/y H:i',
-        minDate: 'today',
         enableTime: true,
         'time_24hr': true,
+        defaultDate: this._state.dateFrom,
         onChange: this.#dateStartChangeHandler,
       }
     );
@@ -260,9 +260,10 @@ export default class NewPointFormView extends AbstractStatefulView {
       this.element.querySelector('[name=event-end-time]'),
       {
         dateFormat: 'd/m/y H:i',
-        minDate: this._state.dateFrom,
         enableTime: true,
         'time_24hr': true,
+        minDate: this._state.dateFrom,
+        defaultDate: this._state.dateTo,
         onChange: this.#dateEndChangeHandler,
       }
     );

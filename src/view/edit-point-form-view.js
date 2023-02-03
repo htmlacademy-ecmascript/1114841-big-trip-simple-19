@@ -266,8 +266,9 @@ export default class EditPointFormView extends AbstractStatefulView {
       this.element.querySelector('[name=event-start-time]'),
       {
         dateFormat: 'd/m/y H:i',
-        'time_24hr': true,
         enableTime: true,
+        'time_24hr': true,
+        minDate: 'today',
         onChange: this.#dateStartChangeHandler,
       }
     );
@@ -281,6 +282,7 @@ export default class EditPointFormView extends AbstractStatefulView {
         enableTime: true,
         'time_24hr': true,
         minDate: this._state.dateFrom,
+        defaultDate: this._state.dateTo,
         onChange: this.#dateEndChangeHandler,
       }
     );

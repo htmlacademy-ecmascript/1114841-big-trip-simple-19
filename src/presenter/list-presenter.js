@@ -40,7 +40,6 @@ export default class ListPresenter {
     this.#filterModel = filterModel;
 
     this.#newPointPresenter = new NewPointPresenter({
-      point: this.#pointsModel.blankPoint,
       listContainer: this.#listComponent.element,
       onDataChange: this.#handleViewAction,
       onDestroy: onNewPointDestroy
@@ -67,13 +66,12 @@ export default class ListPresenter {
 
   init() {
     this.#renderList();
-    // this.#renderSort();
   }
 
   createPoint() {
     this.#currentSortType = SortType.DAY;
     this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
-    this.#newPointPresenter.init();
+    this.#newPointPresenter.init(this.#pointsModel.blankPoint);
   }
 
   #handleViewAction = async (actionType, updateType, update) => {

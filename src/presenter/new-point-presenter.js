@@ -1,6 +1,7 @@
 import { render, remove, RenderPosition } from '../framework/render';
 import NewPointFormView from '../view/new-point-form-view';
 import { UserAction, UpdateType } from '../const';
+// import PointsModel from '../model/points-model';
 
 
 export default class NewPointPresenter {
@@ -8,26 +9,24 @@ export default class NewPointPresenter {
   #handleDataChange = null;
   #handleDestroy = null;
   #point = null;
-  #points = null;
+  // #points = null;
 
   #pointComponent = null;
   #newPointFormComponent = null;
 
-  constructor({point, listContainer, onDataChange, onDestroy}) {
-    this.#point = point;
-
-
-    // console.log('new point в презентере', this.#point);
+  constructor({listContainer, onDataChange, onDestroy}) {
     this.#listContainer = listContainer;
     this.#handleDataChange = onDataChange;
     this.#handleDestroy = onDestroy;
   }
 
-  init() {
+
+  init(point) {
     if (this.#newPointFormComponent !== null) {
       return;
     }
 
+    this.#point = point;
     this.#newPointFormComponent = new NewPointFormView({
       point: this.#point,
       onFormSubmit: this.#handleFormSubmit,
