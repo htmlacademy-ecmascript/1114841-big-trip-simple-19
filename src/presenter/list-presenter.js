@@ -1,4 +1,5 @@
 import { render, remove, RenderPosition } from '../framework/render.js';
+import UiBlocker from '../framework/ui-blocker/ui-blocker.js';
 import ListView from '../view/list-view.js';
 import TripSortView from '../view/trip-sort-view.js';
 import NoPointView from '../view/no-point-view.js';
@@ -9,13 +10,18 @@ import { SortType, FilterType, UpdateType, UserAction } from '../const.js';
 import { sortPointDay, sortPointPrice } from '../util/util.js';
 import { filter } from '../util/filter.js';
 
+const TimeLimit = {
+  LOWER_LIMIT: 350,
+  UPPER_LIMIT: 1000,
+};
+
 export default class ListPresenter {
   #listContainer = null;
   #pointsModel = null;
   #filterModel = null;
   #listComponent = new ListView();
   #loadingComponent = new LoadingView();
-  #pointPresenters = new Map();
+  #pointPresenter = new Map();
   #currentSortType = SortType.DAY;
   #currentFilterType = FilterType.EVERYTHING;
   #filterType = FilterType.EVERYTHING;
@@ -23,6 +29,10 @@ export default class ListPresenter {
   #noPointComponent = null;
   #newPointPresenter = null;
   #isLoading = true;
+  #uiBlocker = new UiBlocker({
+    lowerLimit: TimeLimit.LOWER_LIMIT,
+    upperLimit: TimeLimit.UPPER_LIMIT
+  });
 
   constructor({listContainer, pointsModel, filterModel, onNewPointDestroy}) {
     this.#listContainer = listContainer;
@@ -30,6 +40,7 @@ export default class ListPresenter {
     this.#filterModel = filterModel;
 
     this.#newPointPresenter = new NewPointPresenter({
+      point: this.#pointsModel.blankPoint,
       listContainer: this.#listComponent.element,
       onDataChange: this.#handleViewAction,
       onDestroy: onNewPointDestroy
@@ -65,18 +76,35 @@ export default class ListPresenter {
     this.#newPointPresenter.init();
   }
 
-  #handleViewAction = (actionType, updateType, update) => {
+  #handleViewAction = async (actionType, updateType, update) => {
+    this.#uiBlocker.block();
     switch (actionType) {
       case UserAction.UPDATE_POINT:
-        this.#pointsModel.updatePoint(updateType, update);
+        this.#pointPresenter.get(update.id).setSaving();
+        try {
+          await this.#pointsModel.updatePoint(updateType, update);
+        } catch(err) {
+          this.#pointPresenter.get(update.id).setAborting();
+        }
         break;
       case UserAction.ADD_POINT:
-        this.#pointsModel.addPoint(updateType, update);
+        this.#newPointPresenter.setSaving();
+        try {
+          await this.#pointsModel.addPoint(updateType, update);
+        } catch(err) {
+          this.#newPointPresenter.setAborting();
+        }
         break;
       case UserAction.DELETE_POINT:
-        this.#pointsModel.deletePoint(updateType, update);
+        this.#pointPresenter.get(update.id).setDeleting();
+        try {
+          await this.#pointsModel.deletePoint(updateType, update);
+        } catch(err) {
+          this.#pointPresenter.get(update.id).setAborting();
+        }
         break;
     }
+    this.#uiBlocker.unblock();
   };
 
   #handleModelEvent = (updateType, data) => {
@@ -84,7 +112,7 @@ export default class ListPresenter {
     switch (updateType) {
       case UpdateType.PATCH:
       // - обновить часть списка (например, когда поменялось описание)
-        this.#pointPresenters.get(data.id).init(data);
+        this.#pointPresenter.get(data.id).init(data);
         break;
       case UpdateType.MINOR:
       // - обновить список (например, когда задача ушла в архив)
@@ -107,7 +135,7 @@ export default class ListPresenter {
 
   #handleModeChange = () => {
     this.#newPointPresenter.destroy();
-    this.#pointPresenters.forEach((presenter) => presenter.resetView());
+    this.#pointPresenter.forEach((presenter) => presenter.resetView());
   };
 
   #handleSortTypeChange = (sortType) => {
@@ -123,14 +151,14 @@ export default class ListPresenter {
   };
 
   #renderPoint(point) {
-    const pointPresenters = new PointPresenter({
+    const pointPresenter = new PointPresenter({
       listContainer: this.#listComponent.element,
       onDataChange: this.#handleViewAction,
       onModeChange: this.#handleModeChange
     });
 
-    pointPresenters.init(point);
-    this.#pointPresenters.set(point.id, pointPresenters);
+    pointPresenter.init(point);
+    this.#pointPresenter.set(point.id, pointPresenter);
   }
 
   #renderLoading() {
@@ -162,8 +190,8 @@ export default class ListPresenter {
   #clearList({resetSortType = false, resetFilterType = false} = {}) {
 
     this.#newPointPresenter.destroy();
-    this.#pointPresenters.forEach((presenter) => presenter.destroy());
-    this.#pointPresenters.clear();
+    this.#pointPresenter.forEach((presenter) => presenter.destroy());
+    this.#pointPresenter.clear();
 
     remove(this.#loadingComponent);
 
