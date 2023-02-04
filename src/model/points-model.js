@@ -40,9 +40,9 @@ export default class PointsModel extends Observable {
 
   get blankPoint() {
     const BLANK_POINT = {
-      basePrice: 200,
-      dateFrom: '2023-02-03T12:55:56.845Z',
-      dateTo: '2023-02-03T14:22:13.375Z',
+      'base_price': 200,
+      'date_from': '2023-02-03T12:55:56.845Z',
+      'date_to': '2023-02-03T14:22:13.375Z',
       // dateFrom: 'Sat Feb 02 2023 12:28:05 GMT+0300 (Москва, стандартное время)',
       // dateTo: 'Sat Feb 02 2023 16:34:43 GMT+0300 (Москва, стандартное время)',
       destination: 1,
@@ -56,7 +56,7 @@ export default class PointsModel extends Observable {
     const destinations = this.#destinations;
 
     return {
-      ...BLANK_POINT,
+      ...this.#adaptToClient(BLANK_POINT),
       destination,
       offerByTypes,
       offersByTypes,
