@@ -24,7 +24,6 @@ const createSectionOffersTemplate = (type, offers, offerByTypes, isDisabled) => 
     return (
       `<section class="event__section  event__section--offers">
         <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-
         <div class="event__available-offers">
         ${additionOptionsTemplate}
         </div>
@@ -54,18 +53,14 @@ const createEventTypeItemTemplate = (offersByTypes, type, id, isDisabled) =>
     </div>`);
   }).join('');
 
-
 const createEditPointFormTemplate = (point) => {
-
   const { basePrice, dateFrom, dateTo, destination, type, offers, id, offerByTypes, offersByTypes, destinations, isDisabled, isSaving, isDeleting} = point;
-
   const pointDateTo = fullDateTo(dateTo);
   const pointDateFrom = fullDateFrom(dateFrom);
-  // const additionOptionsTemplate = createAdditionOptionsTemplate(offers, offerByTypes);
   const picturesTemplate = createPicturesTemplate(destination.pictures);
   const eventTypeItemTemplate = createEventTypeItemTemplate(offersByTypes, type, id, isDisabled);
   const destinationNameTemplate = createDestinationNameTemplate(destinations);
-  const createSectionTemplate = createSectionOffersTemplate(type, offers, offerByTypes, isDisabled);
+  const sectionOffersTemplate = createSectionOffersTemplate(type, offers, offerByTypes, isDisabled);
 
   return (
     `<li class="trip-events__item">
@@ -94,7 +89,9 @@ const createEditPointFormTemplate = (point) => {
                     </label>
                     <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-${id}" ${isDisabled ? 'disabled' : ''}>
                     <datalist id="destination-list-${id}">
+
                       ${destinationNameTemplate}
+
                     </datalist>
                   </div>
 
@@ -121,14 +118,18 @@ const createEditPointFormTemplate = (point) => {
                   </button>
                 </header>
                 <section class="event__details">
-                     ${createSectionTemplate}
+
+                     ${sectionOffersTemplate}
+
                   <section class="event__section  event__section--destination">
                     <h3 class="event__section-title  event__section-title--destination">Destination</h3>
                     <p class="event__destination-description">${destination.description}</p>
 
                     <div class="event__photos-container">
                       <div class="event__photos-tape">
+
                       ${picturesTemplate}
+
                       </div>
                     </div>
                   </section>
@@ -221,11 +222,13 @@ export default class EditPointFormView extends AbstractStatefulView {
   #eventDestinationHandler = (evt) => {
     const newName = evt.target.value;
     const newDestination = this._state.destinations.find((direction) => direction.name === newName);
-    if (newDestination) {
-      this.updateElement({
-        destination : newDestination
-      });
+    if (!newDestination) {
+      this.updateElement({...this._state});
+      return;
     }
+    this.updateElement({
+      destination : newDestination
+    });
   };
 
   #eventPriceHandler = (evt) => {
@@ -254,11 +257,22 @@ export default class EditPointFormView extends AbstractStatefulView {
   };
 
   #dateStartChangeHandler = ([userDate]) => {
-    this._setState({dateFrom: userDate});
+    if (userDate.getTime() > this._state.dateTo.getTime()) {
+      this.updateElement({
+        dateFrom: userDate,
+        dateTo: userDate,
+      });
+    } else {
+      this.updateElement({
+        dateFrom: userDate,
+      });
+    }
   };
 
   #dateEndChangeHandler = ([userDate]) => {
-    this._setState({dateTo: userDate});
+    this.updateElement({
+      dateTo: userDate,
+    });
   };
 
   #setDatepickerStart() {
@@ -268,8 +282,8 @@ export default class EditPointFormView extends AbstractStatefulView {
         dateFormat: 'd/m/y H:i',
         enableTime: true,
         'time_24hr': true,
-        minDate: 'today',
-        onChange: this.#dateStartChangeHandler,
+        minDate: this._state.dateFrom,
+        onClose: this.#dateStartChangeHandler,
       }
     );
   }
@@ -283,7 +297,7 @@ export default class EditPointFormView extends AbstractStatefulView {
         'time_24hr': true,
         minDate: this._state.dateFrom,
         defaultDate: this._state.dateTo,
-        onChange: this.#dateEndChangeHandler,
+        onClose: this.#dateEndChangeHandler,
       }
     );
   }

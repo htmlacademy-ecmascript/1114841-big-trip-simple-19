@@ -1,7 +1,6 @@
 import { render, remove, RenderPosition } from '../framework/render';
 import NewPointFormView from '../view/new-point-form-view';
 import { UserAction, UpdateType } from '../const';
-// import PointsModel from '../model/points-model';
 
 
 export default class NewPointPresenter {
@@ -9,9 +8,6 @@ export default class NewPointPresenter {
   #handleDataChange = null;
   #handleDestroy = null;
   #point = null;
-  // #points = null;
-
-  #pointComponent = null;
   #newPointFormComponent = null;
 
   constructor({listContainer, onDataChange, onDestroy}) {
@@ -72,7 +68,7 @@ export default class NewPointPresenter {
   #handleFormSubmit = (point) => {
     this.#handleDataChange(
       UserAction.ADD_POINT,
-      UpdateType.MINOR,
+      UpdateType.MAJOR,
       point,
     );
   };

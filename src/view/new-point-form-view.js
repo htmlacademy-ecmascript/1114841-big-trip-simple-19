@@ -24,11 +24,41 @@ const createSectionOffersTemplate = (type, offers, offerByTypes, isDisabled) => 
     return (
       `<section class="event__section  event__section--offers">
         <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-
         <div class="event__available-offers">
+
         ${additionOptionsTemplate}
+
         </div>
       </section>`);
+  } else {
+    return '';
+  }
+};
+
+const createSectionDestinationTemplate = (destination) => {
+
+  if (destination) {
+    const createPicturesTemplate = (pictures) =>
+      pictures.map((picture) =>
+        ` <img class="event__photo" src="${picture.src}" alt="${picture.description}">`
+      ).join('');
+
+    const picturesTemplate = createPicturesTemplate(destination.pictures);
+
+    return (
+      `<section class="event__section  event__section--destination">
+    <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+    <p class="event__destination-description">${destination.description}</p>
+
+    <div class="event__photos-container">
+      <div class="event__photos-tape">
+
+      ${picturesTemplate}
+
+      </div>
+    </div>
+    </section>`
+    );
   } else {
     return '';
   }
@@ -39,42 +69,36 @@ const createDestinationNameTemplate = (destinations) =>
     ` <option value="${destination.name}"></option>`
   ).join('');
 
-const createPicturesTemplate = (pictures) =>
-  pictures.map((picture) =>
-    ` <img class="event__photo" src="${picture.src}" alt="${picture.description}">`
-  ).join('');
-
-const createEventTypeItemTemplate = (offersByTypes, type, id, isDisabled) =>
+const createEventTypeItemTemplate = (offersByTypes, type, ID, isDisabled) =>
   offersByTypes.map((offer) => {
     const checkedType = offer.type.includes(type) ? 'checked' : '';
     return (
       `<div class="event__type-item">
-      <input id="event-type-${offer.type}-${id}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${offer.type}" ${checkedType} ${isDisabled ? 'disabled' : ''}>
-      <label class="event__type-label  event__type-label--${offer.type}" for="event-type-${offer.type}-${id}">${firstLetterUp(offer.type)}</label>
+      <input id="event-type-${offer.type}-${ID}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${offer.type}" ${checkedType} ${isDisabled ? 'disabled' : ''}>
+      <label class="event__type-label  event__type-label--${offer.type}" for="event-type-${offer.type}-${ID}">${firstLetterUp(offer.type)}</label>
     </div>`);
   }).join('');
 
-
 const createNewPointFormTemplate = (point) => {
   const { basePrice, dateFrom, dateTo, type, offers, offersByTypes, offerByTypes, destination, destinations, isDisabled, isSaving } = point;
-  const id = 1;
+  const ID = 1;
   const pointDateTo = fullDateTo(dateTo);
   const pointDateFrom = fullDateFrom(dateFrom);
-  const picturesTemplate = createPicturesTemplate(destination.pictures);
-  const eventTypeItemTemplate = createEventTypeItemTemplate(offersByTypes, type, id, isDisabled);
   const destinationNameTemplate = createDestinationNameTemplate(destinations);
-  const createSectionTemplate = createSectionOffersTemplate(type, offers, offerByTypes, isDisabled);
+  const eventTypeItemTemplate = createEventTypeItemTemplate(offersByTypes, type, ID, isDisabled);
+  const sectionOffersTemplate = createSectionOffersTemplate(type, offers, offerByTypes, isDisabled);
+  const sectionDestinationTemplate = createSectionDestinationTemplate(destination);
 
   return (
     `<li class="trip-events__item">
         <form class="event event--edit" action="#" method="post">
           <header class="event__header">
             <div class="event__type-wrapper">
-              <label class="event__type  event__type-btn" for="event-type-toggle-${id}">
+              <label class="event__type  event__type-btn" for="event-type-toggle-${ID}">
                 <span class="visually-hidden">Choose event type</span>
                 <img class="event__type-icon" width="17" height="17" src="img/icons/${type}.png" alt="Event type icon">
               </label>
-              <input class="event__type-toggle  visually-hidden" id="event-type-toggle-${id}" type="checkbox">
+              <input class="event__type-toggle  visually-hidden" id="event-type-toggle-${ID}" type="checkbox">
 
               <div class="event__type-list">
                 <fieldset class="event__type-group">
@@ -88,45 +112,43 @@ const createNewPointFormTemplate = (point) => {
 
             <div class="event__field-group  event__field-group--destination">
               <label class="event__label  event__type-output" for="event-destination-1">
+
                 ${type}
+
               </label>
-              <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-${id}" ${isDisabled ? 'disabled' : ''}>
-              <datalist id="destination-list-${id}">
+              <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination ? destination.name : ''}" list="destination-list-${ID}" ${isDisabled ? 'disabled' : ''}>
+              <datalist id="destination-list-${ID}">
+
                 ${destinationNameTemplate}
+
               </datalist>
             </div>
 
             <div class="event__field-group  event__field-group--time">
               <label class="visually-hidden" for="event-start-time-1">From</label>
-              <input class="event__input  event__input--time" id="event-start-time-${id}" type="text" name="event-start-time" value="${pointDateFrom}" ${isDisabled ? 'disabled' : ''}>
+              <input class="event__input  event__input--time" id="event-start-time-${ID}" type="text" name="event-start-time" value="${pointDateFrom}" ${isDisabled ? 'disabled' : ''}>
               &mdash;
               <label class="visually-hidden" for="event-end-time-1">To</label>
-              <input class="event__input  event__input--time" id="event-end-time-${id}" type="text" name="event-end-time" value="${pointDateTo}" ${isDisabled ? 'disabled' : ''}>
+              <input class="event__input  event__input--time" id="event-end-time-${ID}" type="text" name="event-end-time" value="${pointDateTo}" ${isDisabled ? 'disabled' : ''}>
             </div>
 
             <div class="event__field-group  event__field-group--price">
-              <label class="event__label" for="event-price-${id}">
+              <label class="event__label" for="event-price-${ID}">
                 <span class="visually-hidden">Price</span>
                 &euro;
               </label>
-              <input class="event__input  event__input--price" id="event-price-${id}" type="text" name="event-price" value="${basePrice}" ${isDisabled ? 'disabled' : ''}>
+              <input class="event__input  event__input--price" id="event-price-${ID}" type="text" name="event-price" value="${basePrice}" ${isDisabled ? 'disabled' : ''}>
             </div>
 
             <button class="event__save-btn  btn  btn--blue" type="submit" ${isDisabled ? 'disabled' : ''}>${isSaving ? 'Saving...' : 'Save'}</button>
             <button class="event__reset-btn" type="reset"${isDisabled ? 'disabled' : ''}>Cancel</button>
           </header>
           <section class="event__details">
-              ${createSectionTemplate}
-            <section class="event__section  event__section--destination">
-              <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-              <p class="event__destination-description">${destination.description}</p>
 
-              <div class="event__photos-container">
-                <div class="event__photos-tape">
-                ${picturesTemplate}
-                </div>
-              </div>
-            </section>
+              ${sectionOffersTemplate}
+
+              ${sectionDestinationTemplate}
+
           </section>
         </form>
       </li>`
@@ -207,11 +229,13 @@ export default class NewPointFormView extends AbstractStatefulView {
   #eventDestinationHandler = (evt) => {
     const newName = evt.target.value;
     const newDestination = this._state.destinations.find((direction) => direction.name === newName);
-    if (newDestination) {
-      this.updateElement({
-        destination : newDestination,
-      });
+    if (!newDestination) {
+      this.updateElement({...this._state});
+      return;
     }
+    this.updateElement({
+      destination : newDestination
+    });
   };
 
   #eventPriceHandler = (evt) => {
@@ -236,11 +260,22 @@ export default class NewPointFormView extends AbstractStatefulView {
   };
 
   #dateStartChangeHandler = ([userDate]) => {
-    this._setState({dateFrom: userDate});
+    if (userDate.getTime() > this._state.dateTo.getTime()) {
+      this.updateElement({
+        dateFrom: userDate,
+        dateTo: userDate,
+      });
+    } else {
+      this.updateElement({
+        dateFrom: userDate,
+      });
+    }
   };
 
   #dateEndChangeHandler = ([userDate]) => {
-    this._setState({dateTo: userDate});
+    this.updateElement({
+      dateTo: userDate,
+    });
   };
 
   #setDatepickerStart() {
@@ -251,7 +286,7 @@ export default class NewPointFormView extends AbstractStatefulView {
         enableTime: true,
         'time_24hr': true,
         defaultDate: this._state.dateFrom,
-        onChange: this.#dateStartChangeHandler,
+        onClose: this.#dateStartChangeHandler,
       }
     );
   }
@@ -265,7 +300,7 @@ export default class NewPointFormView extends AbstractStatefulView {
         'time_24hr': true,
         minDate: this._state.dateFrom,
         defaultDate: this._state.dateTo,
-        onChange: this.#dateEndChangeHandler,
+        onClose: this.#dateEndChangeHandler,
       }
     );
   }
@@ -279,14 +314,16 @@ export default class NewPointFormView extends AbstractStatefulView {
   }
 
   static parseStateToPoint(state) {
-    const point = {...state,
-      destination: state.destination.id
-    };
+    if (state.destination && state.basePrice) {
+      const point = {...state,
+        destination: state.destination.id
+      };
 
-    delete point.isDisabled;
-    delete point.isSaving;
-    delete point.isDeleting;
+      delete point.isDisabled;
+      delete point.isSaving;
+      delete point.isDeleting;
 
-    return point;
+      return point;
+    }
   }
 }

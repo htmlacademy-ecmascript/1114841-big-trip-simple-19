@@ -5,7 +5,8 @@ import FilterModel from './model/filter-model.js';
 import NewPointButton from './view/new-point-button-view.js';
 import PointApiService from './points-api-service.js';
 
-const AUTHORIZATION = 'Basic bf6v0wgjW4IrKR1z';
+// const AUTHORIZATION = 'Basic bf6v0wgjW4IrKR1z';
+const AUTHORIZATION = 'Basic bf6v0wgjW4IrKR1znbvnvbn';
 const END_POINT = 'https://19.ecmascript.pages.academy/big-trip-simple';
 
 const siteTripElement = document.querySelector('.trip-events');
@@ -16,7 +17,6 @@ const pointsModel = new PointsModel({
 const filterModel = new FilterModel();
 const filterPresenter = new FilterPresenter({filterContainer: siteControlsElement, filterModel, pointsModel});
 const listPresenter = new ListPresenter({listContainer: siteTripElement, filterModel, pointsModel, onNewPointDestroy: handleNewPointFormClose});
-
 
 const newPointButtonElement = new NewPointButton({
   onClick: handleNewTaskButtonClick,

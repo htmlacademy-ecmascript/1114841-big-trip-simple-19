@@ -12,11 +12,8 @@ export default class PointPresenter {
   #listContainer = null;
   #handleDataChange = null;
   #handleModeChange = null;
-
-
   #pointComponent = null;
   #pointEditComponent = null;
-
   #point = null;
   #mode = Mode.DEFAULT;
 

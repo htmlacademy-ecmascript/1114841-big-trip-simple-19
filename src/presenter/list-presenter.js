@@ -29,6 +29,7 @@ export default class ListPresenter {
   #noPointComponent = null;
   #newPointPresenter = null;
   #isLoading = true;
+  #isNewEventOpened = false;
   #uiBlocker = new UiBlocker({
     lowerLimit: TimeLimit.LOWER_LIMIT,
     upperLimit: TimeLimit.UPPER_LIMIT
@@ -69,6 +70,7 @@ export default class ListPresenter {
   }
 
   createPoint() {
+    this.#isNewEventOpened = true;
     this.#currentSortType = SortType.DAY;
     this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
     this.#newPointPresenter.init(this.#pointsModel.blankPoint);
@@ -106,19 +108,15 @@ export default class ListPresenter {
   };
 
   #handleModelEvent = (updateType, data) => {
-    // В зависимости от типа изменений решаем, что делать:
     switch (updateType) {
       case UpdateType.PATCH:
-      // - обновить часть списка (например, когда поменялось описание)
         this.#pointPresenter.get(data.id).init(data);
         break;
       case UpdateType.MINOR:
-      // - обновить список (например, когда задача ушла в архив)
         this.#clearList();
         this.#renderList();
         break;
       case UpdateType.MAJOR:
-      // - обновить всю доску (например, при переключении фильтра)
         this.#clearList({resetSortType: true, resetFilterType: true});
         this.#renderList();
         break;
@@ -137,13 +135,10 @@ export default class ListPresenter {
   };
 
   #handleSortTypeChange = (sortType) => {
-    // - Сортируем задачи
     if (this.#currentSortType === sortType) {
       return;
     }
     this.#currentSortType = sortType;
-    // - Очищаем список
-    // - Рендерим список заново
     this.#clearList();
     this.#renderList();
   };
@@ -219,12 +214,15 @@ export default class ListPresenter {
       return;
     }
 
-    if (pointCount === 0) {
+    if (pointCount === 0 && this.#isNewEventOpened === false ) {
+      this.#clearSort();
       this.#renderNoPointComponent();
     }
 
     for (let i = 0; i < pointCount; i++) {
       this.#renderPoint(points[i]);
     }
+
+    this.#isNewEventOpened = false;
   }
 }
