@@ -11,19 +11,16 @@ export default class PointApiService extends ApiService {
   get points() {
     return this._load({url: 'points'})
       .then(ApiService.parseResponse);
-      // .then(() => ([]));
   }
 
   get destinations() {
     return this._load({url: 'destinations'})
       .then(ApiService.parseResponse);
-      // .then(() => ([]));
   }
 
   get offers() {
     return this._load({url: 'offers'})
       .then(ApiService.parseResponse);
-      // .then(() => ([]));
   }
 
   async updatePoint(point) {
