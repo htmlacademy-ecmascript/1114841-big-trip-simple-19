@@ -6,7 +6,7 @@ const BLANK_POINT = {
   'date_from': new Date(),
   'date_to': new Date(),
   destination: 0,
-  offers: [1, 2, 3, 5],
+  offers: [],
   type: 'taxi'
 };
 

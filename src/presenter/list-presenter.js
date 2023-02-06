@@ -43,7 +43,12 @@ export default class ListPresenter {
     this.#newPointPresenter = new NewPointPresenter({
       listContainer: this.#listComponent.element,
       onDataChange: this.#handleViewAction,
-      onDestroy: onNewPointDestroy
+      onDestroy: () => {
+        onNewPointDestroy();
+        if (this.points.length === 0) {
+          this.#renderList();
+        }
+      }
     });
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
