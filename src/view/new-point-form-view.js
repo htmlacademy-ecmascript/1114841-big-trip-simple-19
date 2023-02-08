@@ -2,6 +2,7 @@ import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { fullDateFrom, fullDateTo, firstLetterUp } from '../util/util.js';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import he from 'he';
 
 const createSectionOffersTemplate = (type, offers, offerByTypes, isDisabled) => {
   const createAdditionOptionsTemplate = () =>
@@ -66,7 +67,7 @@ const createSectionDestinationTemplate = (destination) => {
 
 const createDestinationNameTemplate = (destinations) =>
   destinations.map((destination) =>
-    ` <option value="${destination.name}"></option>`
+    ` <option value="${he.encode(destination.name)}"></option>`
   ).join('');
 
 const createEventTypeItemTemplate = (offersByTypes, type, ID, isDisabled) =>
@@ -74,7 +75,7 @@ const createEventTypeItemTemplate = (offersByTypes, type, ID, isDisabled) =>
     const checkedType = offer.type.includes(type) ? 'checked' : '';
     return (
       `<div class="event__type-item">
-      <input id="event-type-${offer.type}-${ID}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${offer.type}" ${checkedType} ${isDisabled ? 'disabled' : ''}>
+      <input id="event-type-${offer.type}-${ID}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${he.encode(offer.type)}" ${checkedType} ${isDisabled ? 'disabled' : ''}>
       <label class="event__type-label  event__type-label--${offer.type}" for="event-type-${offer.type}-${ID}">${firstLetterUp(offer.type)}</label>
     </div>`);
   }).join('');
@@ -116,7 +117,7 @@ const createNewPointFormTemplate = (point) => {
                 ${type}
 
               </label>
-              <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination ? destination.name : ''}" list="destination-list-${ID}" ${isDisabled ? 'disabled' : ''}>
+              <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${he.encode(destination ? destination.name : '')}" list="destination-list-${ID}" ${isDisabled ? 'disabled' : ''}>
               <datalist id="destination-list-${ID}">
 
                 ${destinationNameTemplate}
@@ -126,10 +127,10 @@ const createNewPointFormTemplate = (point) => {
 
             <div class="event__field-group  event__field-group--time">
               <label class="visually-hidden" for="event-start-time-1">From</label>
-              <input class="event__input  event__input--time" id="event-start-time-${ID}" type="text" name="event-start-time" value="${pointDateFrom}" ${isDisabled ? 'disabled' : ''}>
+              <input class="event__input  event__input--time" id="event-start-time-${ID}" type="text" name="event-start-time" value="${he.encode(pointDateFrom)}" ${isDisabled ? 'disabled' : ''}>
               &mdash;
               <label class="visually-hidden" for="event-end-time-1">To</label>
-              <input class="event__input  event__input--time" id="event-end-time-${ID}" type="text" name="event-end-time" value="${pointDateTo}" ${isDisabled ? 'disabled' : ''}>
+              <input class="event__input  event__input--time" id="event-end-time-${ID}" type="text" name="event-end-time" value="${he.encode(pointDateTo)}" ${isDisabled ? 'disabled' : ''}>
             </div>
 
             <div class="event__field-group  event__field-group--price">
@@ -137,7 +138,7 @@ const createNewPointFormTemplate = (point) => {
                 <span class="visually-hidden">Price</span>
                 &euro;
               </label>
-              <input class="event__input  event__input--price" id="event-price-${ID}" type="text" name="event-price" value="${basePrice}" ${isDisabled ? 'disabled' : ''}>
+              <input class="event__input  event__input--price" id="event-price-${ID}" type="text" name="event-price" value="${he.encode(String(basePrice))}" ${isDisabled ? 'disabled' : ''}>
             </div>
 
             <button class="event__save-btn  btn  btn--blue" type="submit" ${isDisabled ? 'disabled' : ''}>${isSaving ? 'Saving...' : 'Save'}</button>
@@ -230,7 +231,8 @@ export default class NewPointFormView extends AbstractStatefulView {
     const newName = evt.target.value;
     const newDestination = this._state.destinations.find((direction) => direction.name === newName);
     if (!newDestination) {
-      this.updateElement({...this._state});
+      this.updateElement({...this._state,
+        destination: ''});
       return;
     }
     this.updateElement({
@@ -261,22 +263,37 @@ export default class NewPointFormView extends AbstractStatefulView {
 
   #dateStartChangeHandler = ([userDate]) => {
     if (userDate.getTime() > this._state.dateTo.getTime()) {
-      this.updateElement({
+      this._setState({
         dateFrom: userDate,
         dateTo: userDate,
       });
     } else {
-      this.updateElement({
-        dateFrom: userDate,
-      });
+      this._setState({dateFrom: userDate});
     }
   };
 
   #dateEndChangeHandler = ([userDate]) => {
-    this.updateElement({
-      dateTo: userDate,
-    });
+    this._setState({dateTo: userDate});
   };
+
+  // #dateStartChangeHandler = ([userDate]) => {
+  //   if (userDate.getTime() > this._state.dateTo.getTime()) {
+  //     this.updateElement({
+  //       dateFrom: userDate,
+  //       dateTo: userDate,
+  //     });
+  //   } else {
+  //     this.updateElement({
+  //       dateFrom: userDate,
+  //     });
+  //   }
+  // };
+
+  // #dateEndChangeHandler = ([userDate]) => {
+  //   this.updateElement({
+  //     dateTo: userDate,
+  //   });
+  // };
 
   #setDatepickerStart() {
     this.#datepickerStart = flatpickr(
@@ -285,7 +302,6 @@ export default class NewPointFormView extends AbstractStatefulView {
         dateFormat: 'd/m/y H:i',
         enableTime: true,
         'time_24hr': true,
-        defaultDate: this._state.dateFrom,
         onClose: this.#dateStartChangeHandler,
       }
     );
