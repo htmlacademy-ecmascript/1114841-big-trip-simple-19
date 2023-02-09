@@ -4,6 +4,7 @@ import ListView from '../view/list-view.js';
 import TripSortView from '../view/trip-sort-view.js';
 import NoPointView from '../view/no-point-view.js';
 import LoadingView from '../view/loading-view.js';
+import PointsErrorView from '../view/points-error-view.js';
 import PointPresenter from './point-presenter.js';
 import NewPointPresenter from './new-point-presenter.js';
 import { SortType, FilterType, UpdateType, UserAction } from '../const.js';
@@ -21,6 +22,7 @@ export default class ListPresenter {
   #filterModel = null;
   #listComponent = new ListView();
   #loadingComponent = new LoadingView();
+  #pointsErrorComponent = new PointsErrorView();
   #pointPresenter = new Map();
   #currentSortType = SortType.DAY;
   #currentFilterType = FilterType.EVERYTHING;
@@ -28,17 +30,20 @@ export default class ListPresenter {
   #sortComponent = null;
   #noPointComponent = null;
   #newPointPresenter = null;
+  #newPointButtonDisable = null;
   #isLoading = true;
   #isNewEventOpened = false;
+  #pointsError = false;
   #uiBlocker = new UiBlocker({
     lowerLimit: TimeLimit.LOWER_LIMIT,
     upperLimit: TimeLimit.UPPER_LIMIT
   });
 
-  constructor({listContainer, pointsModel, filterModel, onNewPointDestroy}) {
+  constructor({listContainer, pointsModel, filterModel, onNewPointDestroy, onNewPointButtonDisable}) {
     this.#listContainer = listContainer;
     this.#pointsModel = pointsModel;
     this.#filterModel = filterModel;
+    this.#newPointButtonDisable = onNewPointButtonDisable;
 
     this.#newPointPresenter = new NewPointPresenter({
       listContainer: this.#listComponent.element,
@@ -128,6 +133,7 @@ export default class ListPresenter {
       case UpdateType.INIT:
         this.#isLoading = false;
         remove(this.#loadingComponent);
+        remove(this.#pointsErrorComponent);
         this.#renderSort();
         this.#renderList();
         break;
@@ -163,6 +169,10 @@ export default class ListPresenter {
     render(this.#loadingComponent, this.#listComponent.element, RenderPosition.BEFOREBEGIN);
   }
 
+  #renderPointsError() {
+    render(this.#pointsErrorComponent, this.#listComponent.element, RenderPosition.BEFOREBEGIN);
+  }
+
   #renderSort() {
     this.#sortComponent = new TripSortView({
       onSortTypeChange: this.#handleSortTypeChange
@@ -192,6 +202,7 @@ export default class ListPresenter {
     this.#pointPresenter.clear();
 
     remove(this.#loadingComponent);
+    remove(this.#pointsErrorComponent);
 
     if (this.#noPointComponent) {
       remove(this.#noPointComponent);
@@ -216,6 +227,12 @@ export default class ListPresenter {
 
     if (this.#isLoading) {
       this.#renderLoading();
+      return;
+    }
+
+    if (this.#pointsModel.pointsError === true) {
+      this.#renderPointsError();
+      this.#newPointButtonDisable();
       return;
     }
 
