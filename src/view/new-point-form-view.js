@@ -263,37 +263,22 @@ export default class NewPointFormView extends AbstractStatefulView {
 
   #dateStartChangeHandler = ([userDate]) => {
     if (userDate.getTime() > this._state.dateTo.getTime()) {
-      this._setState({
+      this.updateElement({
         dateFrom: userDate,
         dateTo: userDate,
       });
     } else {
-      this._setState({dateFrom: userDate});
+      this.updateElement({
+        dateFrom: userDate,
+      });
     }
   };
 
   #dateEndChangeHandler = ([userDate]) => {
-    this._setState({dateTo: userDate});
+    this.updateElement({
+      dateTo: userDate,
+    });
   };
-
-  // #dateStartChangeHandler = ([userDate]) => {
-  //   if (userDate.getTime() > this._state.dateTo.getTime()) {
-  //     this.updateElement({
-  //       dateFrom: userDate,
-  //       dateTo: userDate,
-  //     });
-  //   } else {
-  //     this.updateElement({
-  //       dateFrom: userDate,
-  //     });
-  //   }
-  // };
-
-  // #dateEndChangeHandler = ([userDate]) => {
-  //   this.updateElement({
-  //     dateTo: userDate,
-  //   });
-  // };
 
   #setDatepickerStart() {
     this.#datepickerStart = flatpickr(

@@ -15,10 +15,15 @@ export default class PointsModel extends Observable {
   #points = [];
   #offersByTypes = [];
   #destinations = [];
+  #pointsError = false;
 
   constructor({pointsApiService}) {
     super();
     this.#pointsApiService = pointsApiService;
+  }
+
+  get pointsError() {
+    return this.#pointsError;
   }
 
   get points() {
@@ -72,6 +77,7 @@ export default class PointsModel extends Observable {
       this.#offersByTypes = allOffers;
       this.#destinations = destinations;
     } catch(err) {
+      this.#pointsError = true;
       this.#points = [];
     }
 

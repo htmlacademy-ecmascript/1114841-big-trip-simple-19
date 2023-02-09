@@ -15,7 +15,7 @@ const pointsModel = new PointsModel({
 });
 const filterModel = new FilterModel();
 const filterPresenter = new FilterPresenter({filterContainer: siteControlsElement, filterModel, pointsModel});
-const listPresenter = new ListPresenter({listContainer: siteTripElement, filterModel, pointsModel, onNewPointDestroy: handleNewPointFormClose});
+const listPresenter = new ListPresenter({listContainer: siteTripElement, filterModel, pointsModel, onNewPointDestroy: handleNewPointFormClose, onNewPointButtonDisable: disableNewTaskButton});
 
 const newPointButtonElement = new NewPointButton({
   onClick: handleNewTaskButtonClick,
@@ -27,6 +27,10 @@ function handleNewPointFormClose() {
 
 function handleNewTaskButtonClick() {
   listPresenter.createPoint();
+  disableNewTaskButton();
+}
+
+function disableNewTaskButton() {
   newPointButtonElement.element.disabled = true;
 }
 
