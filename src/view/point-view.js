@@ -1,8 +1,8 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import { dayDate, dateTimeFrom, dateTimeTo, machineDayDate, machineDateTimeFrom, machineDateTimeTo } from '../util/util.js';
 
-const createSelectedOffersTemplate = (offers, pointTypeOffers) =>
-  pointTypeOffers.offers.map((offer) =>
+const createSelectedOffersTemplate = (offers, offerByTypes) =>
+  offerByTypes.offers.map((offer) =>
     offers.includes(offer.id) ?
       ` <li class="event__offer">
         <span class="event__offer-title">${offer.title}</span>
