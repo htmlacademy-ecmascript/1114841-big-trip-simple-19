@@ -150,6 +150,8 @@ export default class ListPresenter {
       return;
     }
     this.#currentSortType = sortType;
+    this.#clearSort();
+    this.#renderSort();
     this.#clearList();
     this.#renderList();
   };
@@ -175,7 +177,8 @@ export default class ListPresenter {
 
   #renderSort() {
     this.#sortComponent = new TripSortView({
-      onSortTypeChange: this.#handleSortTypeChange
+      onSortTypeChange: this.#handleSortTypeChange,
+      currentSortType: this.#currentSortType
     });
     if (this.#pointsModel.points.every((point) => point === null)) {
       return;
